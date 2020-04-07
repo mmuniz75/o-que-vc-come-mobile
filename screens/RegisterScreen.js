@@ -3,7 +3,9 @@ import {View, Text, StyleSheet} from 'react-native';
 
 const RegisterScreen = props => {
     return (
-        <View><Text style={styles.screen}>Cadastre os produtos quimicos da sua marca ou alimento.</Text></View>
+        <View style={styles.screen}>
+            <Text>Cadastre os produtos quimicos da sua marca ou alimento.</Text>
+        </View>
     )
 }
 

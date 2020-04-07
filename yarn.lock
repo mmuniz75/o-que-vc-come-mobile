@@ -1283,6 +1283,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@egjs/hammerjs@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@egjs/hammerjs@npm:2.0.17"
+  dependencies:
+    "@types/hammerjs": ^2.0.36
+  checksum: af6306e23d95593a0b042923c5ac9a3dba434e43d73cb64b6aa4ee30a1912f4c53bb31adc1f74f0d46e5a69ea1ec1a22fff9645bac2fa274762fbabb97101a7d
+  languageName: node
+  linkType: hard
+
 "@expo/vector-icons@npm:^10.0.2":
   version: 10.0.6
   resolution: "@expo/vector-icons@npm:10.0.6"
@@ -1521,6 +1530,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/masked-view@npm:0.1.6":
+  version: 0.1.6
+  resolution: "@react-native-community/masked-view@npm:0.1.6"
+  peerDependencies:
+    react: ^16.0
+    react-native: ">=0.57"
+  checksum: f8447870e193ca2ff86b04d9a97f6c11806e6df289cb884e87fd1741da92c5f0814f432e956a4a83041598aa7aa2a2281be0d9c3c009ac4da4579df0fc4d082f
+  languageName: node
+  linkType: hard
+
+"@react-navigation/core@npm:^3.7.5":
+  version: 3.7.5
+  resolution: "@react-navigation/core@npm:3.7.5"
+  dependencies:
+    hoist-non-react-statics: ^3.3.2
+    path-to-regexp: ^1.8.0
+    query-string: ^6.11.1
+    react-is: ^16.13.0
+  peerDependencies:
+    react: "*"
+  checksum: 2932b029316c7fac2338ef606d1ec3c0c0d0a5dc74253de08cdc44d433f49c9ef37724b790d0e2cde5c76ff1ea98d0ccd93656886ee05731b91fe8c360646ee5
+  languageName: node
+  linkType: hard
+
+"@react-navigation/native@npm:^3.7.11":
+  version: 3.7.11
+  resolution: "@react-navigation/native@npm:3.7.11"
+  dependencies:
+    hoist-non-react-statics: ^3.3.2
+    react-native-safe-area-view: ^0.14.8
+  checksum: 687c88c76d226115890757ca26c8d3c7e41a29d5ab1a7a4244e55e6619a10929e28e5d1a55396172e5f3a0d396b038472bc72d879acaa711c6d9d5d5b5bec629
+  languageName: node
+  linkType: hard
+
 "@types/color-name@npm:^1.1.1":
   version: 1.1.1
   resolution: "@types/color-name@npm:1.1.1"
@@ -1532,6 +1575,13 @@ __metadata:
   version: 2.0.32
   resolution: "@types/fbemitter@npm:2.0.32"
   checksum: 5d6ba9518b87b9f3adf7b02df839dcd64eb13ae89aac8115a1ffe9d2e30ba66fb23dd2b55b0c905ee468d518e32741c2710f7c420ffe9406e3b6bb76d642eb9d
+  languageName: node
+  linkType: hard
+
+"@types/hammerjs@npm:^2.0.36":
+  version: 2.0.36
+  resolution: "@types/hammerjs@npm:2.0.36"
+  checksum: b5605a366918500c8e2e244c9af0eb311fe1b0a958eb57de3618c1a52e5687491a385d20750479c5e8d6287408ed8a30edc2f9898e4b58592920000ba1e6fa67
   languageName: node
   linkType: hard
 
@@ -3861,6 +3911,22 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"hoist-non-react-statics@npm:^2.3.1":
+  version: 2.5.5
+  resolution: "hoist-non-react-statics@npm:2.5.5"
+  checksum: c4f742b59f594a24bc484beaa186d8f57ba2defaa64705c0df6423d3fcbe42dd2062041d7504e73ca795cf25e1b18bf3c0bb24d62a8611d5b1387d8a2c901159
+  languageName: node
+  linkType: hard
+
+"hoist-non-react-statics@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "hoist-non-react-statics@npm:3.3.2"
+  dependencies:
+    react-is: ^16.7.0
+  checksum: 0149f2c7a4ffc9e5d0550ac3dd19592673c1c8f1d0881e8db5641502c5d16900ecbd4b70b50c4086d4cafb05d2b84ba01ac06ad575bdf3ef742c97893b7273d1
+  languageName: node
+  linkType: hard
+
 "hosted-git-info@npm:^2.1.4":
   version: 2.8.8
   resolution: "hosted-git-info@npm:2.8.8"
@@ -4207,6 +4273,13 @@ fsevents@^1.2.7:
   version: 1.1.0
   resolution: "is-wsl@npm:1.1.0"
   checksum: b74ad4284411257afed846a6f8e63306720707e04e838ee8422068219864975da093cb1f26d06fc65c706b76aebdc0f5f58bba3a2ec5ac5cc4c886a42e703f2b
+  languageName: node
+  linkType: hard
+
+"isarray@npm:0.0.1":
+  version: 0.0.1
+  resolution: "isarray@npm:0.0.1"
+  checksum: 86e6b850bfa7b1851b557982f80e35dd4dfe972828b0b1a90ec0e51199d6b4f435953756b03002721f5e43ea4ebc5d6bad05c5c1e158c3ff2cdf749f67e067ee
   languageName: node
   linkType: hard
 
@@ -5832,6 +5905,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"path-to-regexp@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "path-to-regexp@npm:1.8.0"
+  dependencies:
+    isarray: 0.0.1
+  checksum: eda596fc89018b69ba46e7dd6ffbd83b4845dade9946c2a8d47c119e24f1cd3a1a35b13c0f89a4144ac355d2aa9e0bf631069679278cef284338cc00a98eeaa0
+  languageName: node
+  linkType: hard
+
 "path-type@npm:^2.0.0":
   version: 2.0.0
   resolution: "path-type@npm:2.0.0"
@@ -6040,6 +6122,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"query-string@npm:^6.11.1":
+  version: 6.12.0
+  resolution: "query-string@npm:6.12.0"
+  dependencies:
+    decode-uri-component: ^0.2.0
+    split-on-first: ^1.0.0
+    strict-uri-encode: ^2.0.0
+  checksum: 46fe2f11dfd814375edb5eb1e00b336020b337105edda894c6e3003be0d5c92cf59616a1288937d12566aa86a1492290190e57498d4c4b8f8c81448bc4580e0d
+  languageName: node
+  linkType: hard
+
 "querystringify@npm:^2.1.1":
   version: 2.1.1
   resolution: "querystringify@npm:2.1.1"
@@ -6092,10 +6185,68 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4":
+"react-is@npm:^16.12.0, react-is@npm:^16.13.0, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 9659c004a370c15275784b1e848b735a7d403b5ba455e76b48d0840b05ee12bd79ef1dea520e7d70228367e0d95cc3cb894fbcbfda91c198b3339a96a0ecacc4
+  languageName: node
+  linkType: hard
+
+"react-native-gesture-handler@npm:~1.6.0":
+  version: 1.6.1
+  resolution: "react-native-gesture-handler@npm:1.6.1"
+  dependencies:
+    "@egjs/hammerjs": ^2.0.17
+    hoist-non-react-statics: ^2.3.1
+    invariant: ^2.2.4
+    prop-types: ^15.7.2
+  checksum: db3f9bafd9af2e08e0d48154130752a943c0310dcb5b9c1f5d4befd3ca1c511de4ff331cd6e2d393455bc9582469f59cc0bbbfcbf03f63a99650bde9e92e8c24
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:~1.7.0":
+  version: 1.7.1
+  resolution: "react-native-reanimated@npm:1.7.1"
+  dependencies:
+    fbjs: ^1.0.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 78638ff252821dba371513229c3b07fbd23e051d8eddc0e6c32aecfb238a9c9d53840b822217d269ce6a4cb801cb9cf9c53bdbf463818e57a8fec94683dd92be
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-context@npm:0.7.3":
+  version: 0.7.3
+  resolution: "react-native-safe-area-context@npm:0.7.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: cccffccfb213da7acbd87ff531d7fa418cbf2d5822597cbd1fc3d62b4256bf1acb4060f5c79333f19e37d660007d859d3d2cd450dc2a8ea388fd65667c25e335
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-view@npm:^0.14.8":
+  version: 0.14.8
+  resolution: "react-native-safe-area-view@npm:0.14.8"
+  dependencies:
+    hoist-non-react-statics: ^2.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 1b5b23a821db6504406c8ad4e3925c1c0b91c85c9a18733c5fdbe4d2ee3dfe35f7f24aa15c7ebfd21833c533e1fccf2c85535d70aa4e529446aea737f6068ef9
+  languageName: node
+  linkType: hard
+
+"react-native-screens@npm:~2.2.0":
+  version: 2.2.0
+  resolution: "react-native-screens@npm:2.2.0"
+  dependencies:
+    debounce: ^1.2.0
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: deb45b9fb89d2a993208dd204c901aa016cc24a02ad9355e0553ae9934a7694706d85728fce9da042973f23e8c3997a5fc4297f77e270988afeeb333a46751c4
   languageName: node
   linkType: hard
 
@@ -6168,6 +6319,19 @@ fsevents@^1.2.7:
   bin:
     react-native: ./cli.js
   checksum: faf727214628da21feafd808f0146c794c75b8f6cfe6afda55fba5435cd67b6fdc4744b9a409734732316f99681d4e419aa0c06e0330f6f87e4071195e62cbf2
+  languageName: node
+  linkType: hard
+
+"react-navigation@npm:^4.3.7":
+  version: 4.3.7
+  resolution: "react-navigation@npm:4.3.7"
+  dependencies:
+    "@react-navigation/core": ^3.7.5
+    "@react-navigation/native": ^3.7.11
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 227f63f9186d658cb79b88e51dd664000909887385bc7e21e3bb4ed39d7b0dc035689bb4b6365ea853bb8e4d268b500565aa6af926448ebd755d4c2a81dbb679
   languageName: node
   linkType: hard
 
@@ -6458,12 +6622,19 @@ fsevents@^1.2.7:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/core": ^7.8.6
+    "@react-native-community/masked-view": 0.1.6
     babel-preset-expo: ~8.1.0
     expo: ~37.0.3
+    expo-font: ~8.1.0
     react: ~16.9.0
     react-dom: ~16.9.0
     react-native: "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz"
+    react-native-gesture-handler: ~1.6.0
+    react-native-reanimated: ~1.7.0
+    react-native-safe-area-context: 0.7.3
+    react-native-screens: ~2.2.0
     react-native-web: ~0.11.7
+    react-navigation: ^4.3.7
   languageName: unknown
   linkType: soft
 
@@ -6873,6 +7044,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"split-on-first@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "split-on-first@npm:1.1.0"
+  checksum: 7712c1553ef303b3ae66a361c2817da29dc56338edc02c47927df8880756683ee378b5f64e5028edef367c47ed2290e47a4a583a3ebd1415fe096ed74180cfde
+  languageName: node
+  linkType: hard
+
 "split-string@npm:^3.0.1, split-string@npm:^3.0.2":
   version: 3.1.0
   resolution: "split-string@npm:3.1.0"
@@ -6947,6 +7125,13 @@ fsevents@^1.2.7:
   version: 2.2.0
   resolution: "stream-buffers@npm:2.2.0"
   checksum: 0bc1d498616332f7664371b80edddea6b5de4c26bbcb8a44c6cc67696a0b4236a564fbd1bf0393f67b297fff1da62ac4382a5be5191b9f25e03bac2eb8458718
+  languageName: node
+  linkType: hard
+
+"strict-uri-encode@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "strict-uri-encode@npm:2.0.0"
+  checksum: 77a40129a8cbae92f1c069b68bea0b53037e9d37f830435d1d6291b49315474d8185fe5cb4ec410bb44e97466432a3970ac9e0efdb33cf36de2499f6ebabdba7
   languageName: node
   linkType: hard
 
