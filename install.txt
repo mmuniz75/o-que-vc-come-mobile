@@ -10,3 +10,13 @@ expo install react-native-gesture-handler react-native-reanimated react-native-s
 npm install --save react-navigation-stack
 
 npm install --save react-native-screens
+
+
+clean
+---------
+del node_modules
+del package-lock.json
+del yarn.lock 
+npm cache verify 
+npm install 
+expo r -c

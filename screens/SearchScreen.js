@@ -18,8 +18,8 @@ const renderChemical = (itemData) => {
 const SearchScreen = props => {
     return (
         <View style={styles.screen}>
-        <Text>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
-        <Button title="Não achei meu alimento2" onPress={() => {
+        <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
+        <Button title="Não achei meu alimento" onPress={() => {
             props.navigation.navigate('Register')}
         } />
          <FlatList data={CHEMICALS} renderItem={renderChemical} />
@@ -37,13 +37,17 @@ const styles = StyleSheet.create({
        flex : 1,
        justifyContent : 'center',
        alignItems : 'center',
-       fontFamily : 'open-sans-bold'
+       
     },
     list : {
         flex : 1,
         margin : 15,
         
+    },
+    text : {
+        fontFamily : 'open-sans-bold'
     }
+    
 });
 
 export default SearchScreen;
