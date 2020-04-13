@@ -4,12 +4,13 @@ expo init <app> --template blank
 expo start
 
 expo install expo-font
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 
 npm install --save react-navigation
-expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 npm install --save react-navigation-stack
-
 npm install --save react-native-screens
+npm install --save react-navigation-header-buttons
+npm install --save @expo/vector-icons
 
 
 clean
@@ -20,3 +21,8 @@ del yarn.lock
 npm cache verify 
 npm install 
 expo r -c
+
+
+debug
+------
+adb shell input keyevent 82
