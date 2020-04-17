@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, CheckBox} from 'react-native';
+import {View, Text, StyleSheet, FlatList, CheckBox, TouchableOpacity, TextInput} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
@@ -16,6 +16,15 @@ const RegisterScreen = props => {
     return (
         <View style={styles.screen}>
             <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.</Text>
+            <View>
+                <TextInput />
+                <TouchableOpacity>
+                    <Ionicons 
+                        name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}  
+                        size={23}
+                    />
+                </TouchableOpacity> 
+            </View>   
             <FlatList  style={styles.list} data={CHEMICALS} renderItem={renderChemical} />
         </View>
     )
