@@ -1,5 +1,6 @@
 import React,{ useState} from 'react';
 import { View, Text, TextInput, StyleSheet, Button, FlatList, Platform } from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 
 import { CHEMICALS } from '../services/chemicalService'
 import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler';
@@ -33,11 +34,19 @@ const SearchScreen = props => {
             <View style={styles.form}>
                 <View style={styles.formControl}>
                     <Text style={styles.label}>Codigo de barra</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={barcode}
-                        onChangeText={text => setBarcode(text)}
-                    />
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={barcode}
+                            onChangeText={text => setBarcode(text)}
+                        />
+                        <TouchableOpacity>
+                            <Ionicons 
+                                name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}  
+                                size={23}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.formControl}>
                     <Text style={styles.label}>Escolha o alimento</Text>
@@ -108,6 +117,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center'
     },
+    textContainer : {
+        flexDirection : 'row'
+    },
     form: {
         margin: 20,
         width: '80%'
@@ -124,7 +136,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 2,
         paddingVertical: 5,
         borderBottomColor: '#ccc',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        width : '90%'
     }
 });
 

@@ -35,11 +35,19 @@ const RegisterScreen = props => {
             <View style={styles.form}>
                 <View style={styles.formControl}>
                     <Text style={styles.label}>Codigo de barra</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={barcode}
-                        onChangeText={text => setBarcode(text)}
-                    />
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={barcode}
+                            onChangeText={text => setBarcode(text)}
+                        />
+                        <TouchableOpacity>
+                            <Ionicons 
+                                name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}  
+                                size={23}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.formControl}>
                     <Text style={styles.label}>Escolha o alimento</Text>
