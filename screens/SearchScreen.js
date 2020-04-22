@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Button, FlatList, Platform } from 'r
 import {Ionicons} from '@expo/vector-icons';
 
 import { CHEMICALS } from '../services/chemicalService'
-import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Card from '../components/UI/Card';
 
@@ -18,9 +18,9 @@ const SearchScreen = props => {
         return (
             <View >
                 <TouchableOpacity onPress={() => { }}>
-                    <Card style={styles.items}>
+                    <View style={styles.items}>
                         <Text style={styles.item}>{itemData.item.name}</Text>
-                    </Card>
+                    </View>
                 </TouchableOpacity>
             </View>
         )
@@ -94,6 +94,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     items: {
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5,
+        borderRadius: 10,
+        backgroundColor: 'white',
         marginHorizontal: 20,
         marginVertical: 10,
         padding: 10,
