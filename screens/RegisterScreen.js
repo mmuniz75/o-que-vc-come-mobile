@@ -25,19 +25,57 @@ const renderChemical = (index,item,chemicalsCheck, setChemicallCheck) => {
 
 const RegisterScreen = props => {
     const [chemicalsCheck, setChemicallCheck] = useState(false);
+    const [barcode, setBarcode] = useState('');
+    const [brand, setBrand] = useState('');
+    const [food, setFood] = useState('');
     
     return (
         <View style={styles.screen}>
             <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.</Text>
-            <View>
-                <TextInput />
-                <TouchableOpacity>
-                    <Ionicons 
-                        name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}  
-                        size={23}
+            <View style={styles.form}>
+                <View style={styles.formControl}>
+                    <Text style={styles.label}>Codigo de barra</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={barcode}
+                        onChangeText={text => setBarcode(text)}
                     />
-                </TouchableOpacity> 
-            </View>   
+                </View>
+                <View style={styles.formControl}>
+                    <Text style={styles.label}>Escolha o alimento</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={food}
+                            onChangeText={text => setFood(text)}
+                        />
+                        <TouchableOpacity>
+                            <Ionicons 
+                                name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}  
+                                size={23}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            
+                <View style={styles.formControl}>
+                    <Text style={styles.label}>Escolha a Marca</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={brand}
+                            onChangeText={text => setBrand(text)}
+                        />
+                        <TouchableOpacity>
+                            <Ionicons 
+                                name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}  
+                                size={23}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                
+            </View>
             <FlatList  style={styles.list} data={CHEMICALS} renderItem={ ({item,index}) => renderChemical(index,item,chemicalsCheck, setChemicallCheck)} />
         </View>
     )
@@ -71,9 +109,27 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign : 'center'
     },
-    checkbox : {
-        
-        
+    textContainer : {
+        flexDirection : 'row'
+    },
+    form: {
+        margin: 20,
+        width: '80%'
+    },
+    formControl: {
+        width: '100%',
+        marginBottom : 10
+    },
+    label: {
+        fontFamily: 'open-sans-bold',
+        marginVertical: 8
+    },
+    input: {
+        paddingHorizontal: 2,
+        paddingVertical: 5,
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+        width : '90%'
     }
 });
 
