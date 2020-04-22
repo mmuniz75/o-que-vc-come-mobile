@@ -5,30 +5,29 @@ import {Ionicons} from '@expo/vector-icons';
 import { CHEMICALS } from '../services/chemicalService'
 import { TouchableOpacity, TouchableNativeFeedback } from 'react-native-gesture-handler';
 
-const renderChemical = (itemData) => {
-    let TouchableCmp = TouchableOpacity;
+import Card from '../components/UI/Card';
 
-    if (Platform.OS === 'android' && Platform.Version >= 21) {
-        TouchableCmp = TouchableNativeFeedback;
-    }
-
-    return (
-        <View style={styles.touchable}>
-            <TouchableCmp onPress={() => { }}>
-                <View style={styles.items}>
-                    <Text style={styles.item}>{itemData.item.name}</Text>
-                </View>
-            </TouchableCmp>
-        </View>
-    )
-}
 
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
     const [food, setFood] = useState('');
 
+
+    const renderChemical = (itemData) => {
+        return (
+            <View >
+                <TouchableOpacity onPress={() => { }}>
+                    <Card style={styles.items}>
+                        <Text style={styles.item}>{itemData.item.name}</Text>
+                    </Card>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     return (
+        
         <View style={styles.screen}>
             <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
             <View style={styles.form}>
@@ -71,7 +70,10 @@ const SearchScreen = props => {
                 props.navigation.navigate('Register')
             }
             } />
-            <FlatList style={styles.list} data={CHEMICALS} renderItem={renderChemical} />
+            <FlatList style={styles.list} 
+                      keyExtractor={item => item.id}
+                      data={CHEMICALS} 
+                      renderItem={renderChemical} />
         </View>
     )
 }
@@ -92,13 +94,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     items: {
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
-        borderRadius: 10,
-        backgroundColor: 'white',
         marginHorizontal: 20,
         marginVertical: 10,
         padding: 10,

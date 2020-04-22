@@ -100,7 +100,7 @@ const RegisterScreen = props => {
 
 RegisterScreen.navigationOptions = navData => {
     return {
-        headerRight: (
+        headerRight: () =>
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                     title="Save"
@@ -110,7 +110,7 @@ RegisterScreen.navigationOptions = navData => {
                     onPress={() => save(navData.navigation)}
                 />
             </HeaderButtons>
-        )
+        
     };
 };
 
