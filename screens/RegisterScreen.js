@@ -41,12 +41,13 @@ const RegisterScreen = props => {
                 <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.</Text>
                 <View style={styles.form}>
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Codigo de barra</Text>
                         <View style={styles.textContainer}>
                             <TextInput
                                 style={styles.input}
                                 value={barcode}
                                 onChangeText={text => setBarcode(text)}
+                                placeholder='Código de barra'
+                                keyboardType='number-pad'
                             />
                             <TouchableOpacity>
                                 <Ionicons
@@ -57,12 +58,12 @@ const RegisterScreen = props => {
                         </View>
                     </View>
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Escolha o alimento</Text>
                         <View style={styles.textContainer}>
                             <TextInput
                                 style={styles.input}
                                 value={food}
                                 onChangeText={text => setFood(text)}
+                                placeholder='Escolha o alimento'
                             />
                             <TouchableOpacity>
                                 <Ionicons
@@ -74,12 +75,12 @@ const RegisterScreen = props => {
                     </View>
 
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Escolha a Marca</Text>
                         <View style={styles.textContainer}>
                             <TextInput
                                 style={styles.input}
                                 value={brand}
                                 onChangeText={text => setBrand(text)}
+                                placeholder='Escolha a Marca'
                             />
                             <TouchableOpacity>
                                 <Ionicons
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     text: {
         marginVertical: 10,
         fontFamily: 'open-sans-bold',
-        fontSize: 16,
+        fontSize: 14,
         textAlign: 'center'
     },
     textContainer: {
@@ -163,7 +164,9 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
-        width: '90%'
+        width: '90%',
+        fontSize : 20,
+        fontFamily: 'open-sans',
     }
 });
 

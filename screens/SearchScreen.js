@@ -31,13 +31,13 @@ const SearchScreen = props => {
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
                 <View style={styles.form}>
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Codigo de barra</Text>
                         <View style={styles.textContainer}>
                             <TextInput
                                 style={styles.input}
                                 value={barcode}
                                 onChangeText={text => setBarcode(text)}
                                 keyboardType='number-pad'
+                                placeholder='Codigo de barra'
                             />
                             <TouchableOpacity>
                                 <Ionicons
@@ -48,20 +48,20 @@ const SearchScreen = props => {
                         </View>
                     </View>
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Escolha o alimento</Text>
                         <TextInput
                             style={styles.input}
                             value={food}
                             onChangeText={text => setFood(text)}
+                            placeholder='Escolha o alimento'
                         />
                     </View>
                     {!food ? null : (
                         <View style={styles.formControl}>
-                            <Text style={styles.label}>Escolha a Marca</Text>
                             <TextInput
                                 style={styles.input}
                                 value={brand}
                                 onChangeText={text => setBrand(text)}
+                                placeholder='Escolha a Marca'
                             />
                         </View>
                     )}
@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 100,
-        padding: 100
+        padding: 100,
+        borderRadius: 20,
     },
     item: {
         fontFamily: 'open-sans',
@@ -124,22 +125,21 @@ const styles = StyleSheet.create({
     },
     form: {
         margin: 20,
-        width: '80%'
+        width: '90%'
     },
     formControl: {
         width: '100%',
-        marginBottom: 10
+        marginBottom: 20
     },
     label: {
         fontFamily: 'open-sans-bold',
-        marginVertical: 8
     },
     input: {
-        paddingHorizontal: 2,
-        paddingVertical: 5,
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
-        width: '90%'
+        width: '90%',
+        fontSize : 20,
+        fontFamily: 'open-sans',
     }
 });
 
