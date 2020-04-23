@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -22,14 +22,14 @@ const setCheck = (index, value, chemicalsCheck, setChemicallCheck) => {
 
 const Chemical = props => {
     return <View style={styles.items} >
-                <Text style={styles.item}>{props.name}</Text>
-                <Switch 
-                    style={styles.switch}
-                    value={props.checked}
-                    thumbColor={Platform.OS === 'android' ? Colors.primaryColor : ''}
-                    trackColor={{ true: Colors.primaryColor }}
-                    onValueChange={newValue => props.onChange(newValue)} />
-            </View>
+        <Text style={styles.item}>{props.name}</Text>
+        <Switch
+            style={styles.switch}
+            value={props.checked}
+            thumbColor={Platform.OS === 'android' ? Colors.primaryColor : ''}
+            trackColor={{ true: Colors.primaryColor }}
+            onValueChange={newValue => props.onChange(newValue)} />
+    </View>
 }
 
 const RegisterScreen = props => {
@@ -39,8 +39,28 @@ const RegisterScreen = props => {
     const [food, setFood] = useState('');
 
     return (
-        
         <ScrollView>
+            <Modal animationType='slide' visible={false}>
+                <View style={styles.modal}>
+                    <View style={styles.formControl}>
+                        <Text style={styles.label} >Digite o nome do alimento</Text>
+                        <View style={styles.textContainer}>
+                            <TextInput
+                                style={styles.input}
+                                value={food}
+                                onChangeText={text => setFood(text)}
+                            />
+                            <TouchableOpacity>
+                                <Ionicons
+                                    name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                                    size={32}
+                                    onPress={() => console.log('adicionado')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
             <View style={styles.screen}>
                 <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.Caso não ache sua marca ou alimento aperte + para adiciona-los.</Text>
                 <View style={styles.form}>
@@ -91,7 +111,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
-                                    onPress={() => console.log( Dimensions.get('window').width)}
+                                    onPress={() => console.log(Dimensions.get('window').width)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -99,6 +119,7 @@ const RegisterScreen = props => {
 
                 </View>
                 <View style={styles.list}>
+                    <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
                     {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 </View>
 
@@ -130,6 +151,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    modal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        width : '90%',
+        margin : '5%'
+    },
     item: {
         fontFamily: 'open-sans',
         fontSize: 16,
@@ -153,12 +182,18 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         backgroundColor: 'white',
-        marginBottom : 20
+        marginBottom: 20
     },
     text: {
-        marginVertical: 20,
+        marginTop: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 14,
+        textAlign: 'center'
+    },
+    textChemical: {
+        margin: 20,
+        fontFamily: 'open-sans',
+        fontSize: 16,
         textAlign: 'center'
     },
     textContainer: {
@@ -174,7 +209,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontFamily: 'open-sans-bold',
-        marginVertical: 8
+        marginVertical: 8,
+        fontSize: 16,
     },
     input: {
         paddingHorizontal: 2,
@@ -182,12 +218,12 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
         width: '90%',
-        fontSize : 20,
+        fontSize: 20,
         fontFamily: 'open-sans',
-        marginRight : 10
+        marginRight: 10
     },
-    switch : {
-        marginEnd : Dimensions.get('window').width >320 ? '10%' : 0
+    switch: {
+        marginEnd: Dimensions.get('window').width > 320 ? '10%' : 0
     }
 });
 
