@@ -71,7 +71,7 @@ const SearchScreen = props => {
                 }
                 } />
                 
-                {CHEMICALS.map(chemical => <Chemical name={chemical.name} id={chemical.id} />)}
+                {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 
             </View>
         </ScrollView>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     text: {
-        marginVertical: 10,
+        marginVertical: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 14,
         textAlign: 'center'

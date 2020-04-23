@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -21,9 +21,11 @@ const setCheck = (index, value, chemicalsCheck, setChemicallCheck) => {
 }
 
 const Chemical = props => {
-    return <View style={styles.items} key={props.id}>
+    return <View style={styles.items} >
                 <Text style={styles.item}>{props.name}</Text>
-                <Switch value={props.checked}
+                <Switch 
+                    style={styles.switch}
+                    value={props.checked}
                     thumbColor={Platform.OS === 'android' ? Colors.primaryColor : ''}
                     trackColor={{ true: Colors.primaryColor }}
                     onValueChange={newValue => props.onChange(newValue)} />
@@ -37,9 +39,10 @@ const RegisterScreen = props => {
     const [food, setFood] = useState('');
 
     return (
+        
         <ScrollView>
             <View style={styles.screen}>
-                <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.</Text>
+                <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.Caso não ache sua marca ou alimento aperte + para adiciona-los.</Text>
                 <View style={styles.form}>
                     <View style={styles.formControl}>
                         <View style={styles.textContainer}>
@@ -53,7 +56,7 @@ const RegisterScreen = props => {
                             <TouchableOpacity>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
-                                    size={23}
+                                    size={32}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -69,7 +72,8 @@ const RegisterScreen = props => {
                             <TouchableOpacity>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-                                    size={23}
+                                    size={32}
+                                    onPress={() => console.log('adicionado')}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -86,7 +90,8 @@ const RegisterScreen = props => {
                             <TouchableOpacity>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-                                    size={23}
+                                    size={32}
+                                    onPress={() => console.log( Dimensions.get('window').width)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -94,7 +99,7 @@ const RegisterScreen = props => {
 
                 </View>
                 <View style={styles.list}>
-                    {CHEMICALS.map(chemical => <Chemical name={chemical.name} id={chemical.id} />)}
+                    {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 </View>
 
             </View>
@@ -140,7 +145,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     list: {
-        width: '80%',
+        width: '95%',
         shadowColor: 'black',
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
         marginBottom : 20
     },
     text: {
-        marginVertical: 10,
+        marginVertical: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 14,
         textAlign: 'center'
@@ -179,6 +184,10 @@ const styles = StyleSheet.create({
         width: '90%',
         fontSize : 20,
         fontFamily: 'open-sans',
+        marginRight : 10
+    },
+    switch : {
+        marginEnd : Dimensions.get('window').width >320 ? '10%' : 0
     }
 });
 
