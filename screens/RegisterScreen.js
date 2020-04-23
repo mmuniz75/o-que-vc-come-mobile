@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/UI/HeaderButton';
 
 import { CHEMICALS } from '../services/chemicalService'
+import Card from '../components/UI/Card';
 
 const save = (navigation) => {
     console.log('saved !');
@@ -92,7 +93,10 @@ const RegisterScreen = props => {
                     </View>
 
                 </View>
-                {CHEMICALS.map(chemical => <Chemical name={chemical.name} id={chemical.id} />)}
+                <View style={styles.list}>
+                    {CHEMICALS.map(chemical => <Chemical name={chemical.name} id={chemical.id} />)}
+                </View>
+
             </View>
         </ScrollView>
     )
@@ -133,10 +137,18 @@ const styles = StyleSheet.create({
         marginVertical: 15,
         marginRight: 20,
         justifyContent: "space-between",
-        width: '80%',
+        width: '100%',
     },
     list: {
-        width: '100%',
+        width: '80%',
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        marginBottom : 20
     },
     text: {
         marginVertical: 10,
