@@ -1,6 +1,6 @@
-import React,{ useState} from 'react';
-import { View, Text, TextInput, StyleSheet, Button, FlatList, Platform } from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { CHEMICALS } from '../services/chemicalService'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,73 +8,73 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Card from '../components/UI/Card';
 
 
+const Chemical = props => {
+    return (
+        <View style={styles.list}>
+            <TouchableOpacity onPress={() => { }}>
+                <View style={styles.items}>
+                    <Text style={styles.item} key={props.id} >{props.name}</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
     const [food, setFood] = useState('');
 
-
-    const renderChemical = (itemData) => {
-        return (
-            <View >
-                <TouchableOpacity onPress={() => { }}>
-                    <View style={styles.items}>
-                        <Text style={styles.item}>{itemData.item.name}</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
     return (
-        
-        <View style={styles.screen}>
-            <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
-            <View style={styles.form}>
-                <View style={styles.formControl}>
-                    <Text style={styles.label}>Codigo de barra</Text>
-                    <View style={styles.textContainer}>
-                        <TextInput
-                            style={styles.input}
-                            value={barcode}
-                            onChangeText={text => setBarcode(text)}
-                        />
-                        <TouchableOpacity>
-                            <Ionicons 
-                                name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}  
-                                size={23}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.formControl}>
-                    <Text style={styles.label}>Escolha o alimento</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={food}
-                        onChangeText={text => setFood(text)}
-                    />
-                </View>
-                {!food ? null : (
+        <ScrollView>
+            <View style={styles.screen}>
+                <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
+                <View style={styles.form}>
                     <View style={styles.formControl}>
-                        <Text style={styles.label}>Escolha a Marca</Text>
+                        <Text style={styles.label}>Codigo de barra</Text>
+                        <View style={styles.textContainer}>
+                            <TextInput
+                                style={styles.input}
+                                value={barcode}
+                                onChangeText={text => setBarcode(text)}
+                                keyboardType='number-pad'
+                            />
+                            <TouchableOpacity>
+                                <Ionicons
+                                    name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
+                                    size={23}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.formControl}>
+                        <Text style={styles.label}>Escolha o alimento</Text>
                         <TextInput
                             style={styles.input}
-                            value={brand}
-                            onChangeText={text => setBrand(text)}
+                            value={food}
+                            onChangeText={text => setFood(text)}
                         />
                     </View>
-                )}
+                    {!food ? null : (
+                        <View style={styles.formControl}>
+                            <Text style={styles.label}>Escolha a Marca</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={brand}
+                                onChangeText={text => setBrand(text)}
+                            />
+                        </View>
+                    )}
+                </View>
+                <Button style={styles.button} title="Não achei meu alimento" onPress={() => {
+                    props.navigation.navigate('Register')
+                }
+                } />
+                
+                {CHEMICALS.map(chemical => <Chemical name={chemical.name} id={chemical.id} />)}
+                
             </View>
-            <Button style={styles.button} title="Não achei meu alimento" onPress={() => {
-                props.navigation.navigate('Register')
-            }
-            } />
-            <FlatList style={styles.list} 
-                      keyExtractor={item => item.id}
-                      data={CHEMICALS} 
-                      renderItem={renderChemical} />
-        </View>
+        </ScrollView>
     )
 }
 
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center'
     },
-    textContainer : {
-        flexDirection : 'row'
+    textContainer: {
+        flexDirection: 'row'
     },
     form: {
         margin: 20,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
     formControl: {
         width: '100%',
-        marginBottom : 10
+        marginBottom: 10
     },
     label: {
         fontFamily: 'open-sans-bold',
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
-        width : '90%'
+        width: '90%'
     }
 });
 
