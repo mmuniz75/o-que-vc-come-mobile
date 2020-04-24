@@ -149,7 +149,18 @@ const RegisterScreen = props => {
 
                 </View>
                 <View style={styles.list}>
-                    <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
+                    <View style={styles.chemicalHeader} >
+                        <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
+                        <View style={styles.chemicalIcon} >
+                            <TouchableOpacity>
+                                <Ionicons
+                                    name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
+                                    size={32}
+                                    onPress={() => {}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 </View>
 
@@ -238,7 +249,7 @@ const styles = StyleSheet.create({
         margin: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 16,
-        textAlign: 'center',
+        width : '70%',
         color : Colors.primaryColor
     },
     textContainer: {
@@ -273,6 +284,13 @@ const styles = StyleSheet.create({
     },
     closeIcon : {
         alignItems : 'flex-end'
+    },
+    chemicalHeader : {
+        flexDirection : "row"
+    },
+    chemicalIcon : {
+        justifyContent : 'center',
+        alignItems : 'center'
     }
 });
 
