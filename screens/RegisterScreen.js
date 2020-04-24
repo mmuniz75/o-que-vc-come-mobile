@@ -61,11 +61,10 @@ const RegisterScreen = props => {
                     <View style={styles.modal}>
                         <View style={styles.formControl}>
                             <View style={styles.closeIcon}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => add(setModal)}>
                                     <Ionicons
                                         name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
                                         size={25}
-                                        onPress={() => add(setModal)}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -76,12 +75,11 @@ const RegisterScreen = props => {
                                     value={food}
                                     onChangeText={text => setFood(text)}
                                 />
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => add(setModal)}>
                                     <Ionicons
                                         name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
                                         size={32}
                                         color='green'
-                                        onPress={() => add(setModal)}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -106,7 +104,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
                                     size={32}
-                                    onPress={() => { }}
+
                                 />
                             </TouchableOpacity>
                         </View>
@@ -119,11 +117,10 @@ const RegisterScreen = props => {
                                 onChangeText={text => setFood(text)}
                                 placeholder='Escolha o alimento'
                             />
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => setModal(true)}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
-                                    onPress={() => setModal(true)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -137,11 +134,10 @@ const RegisterScreen = props => {
                                 onChangeText={text => setBrand(text)}
                                 placeholder='Escolha a Marca'
                             />
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => setModal(true)}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
-                                    onPress={() => setModal(true)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -156,7 +152,6 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
                                     size={32}
-                                    onPress={() => {}}
                                 />
                             </TouchableOpacity>
                         </View>
