@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert,KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -57,36 +57,37 @@ const RegisterScreen = props => {
             <Modal animationType='slide'
                 visible={showModal}
                 transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modal}>
-                        <View style={styles.formControl}>
-                            <View style={styles.closeIcon}>
-                                <TouchableOpacity onPress={() => add(setModal)}>
-                                    <Ionicons
-                                        name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
-                                        size={25}
+                    <KeyboardAvoidingView style={styles.modalContainer} behavior='height'>
+                        <View style={styles.modal}>
+                            <View style={styles.formControl}>
+                                <View style={styles.closeIcon}>
+                                    <TouchableOpacity onPress={() => add(setModal)}>
+                                        <Ionicons
+                                            name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
+                                            size={25}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                <Text style={styles.label} >Digite o nome do item</Text>
+                                <View style={styles.textContainer}>
+                                    <TextInput
+                                        style={styles.input}
+                                        value={food}
+                                        onChangeText={text => setFood(text)}
                                     />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.label} >Digite o nome do item</Text>
-                            <View style={styles.textContainer}>
-                                <TextInput
-                                    style={styles.input}
-                                    value={food}
-                                    onChangeText={text => setFood(text)}
-                                />
-                                <TouchableOpacity onPress={() => add(setModal)}>
-                                    <Ionicons
-                                        name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-                                        size={32}
-                                        color='green'
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                                    <TouchableOpacity onPress={() => add(setModal)}>
+                                        <Ionicons
+                                            name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                                            size={32}
+                                            color='green'
+                                        />
+                                    </TouchableOpacity>
+                                </View>
 
+                            </View>
                         </View>
-                    </View>
-                </View>
+                    </KeyboardAvoidingView>
+                
             </Modal>
             <View style={styles.screen}>
                 <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.Caso não ache sua marca ou alimento aperte + para adiciona-los.</Text>
@@ -238,14 +239,14 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         fontSize: 14,
         textAlign: 'center',
-        color : Colors.primaryColor
+        color: Colors.primaryColor
     },
     textChemical: {
         margin: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 16,
-        width : '70%',
-        color : Colors.primaryColor
+        width: '70%',
+        color: Colors.primaryColor
     },
     textContainer: {
         flexDirection: 'row'
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         marginVertical: 8,
         fontSize: 16,
-        color : Colors.primaryColor
+        color: Colors.primaryColor
     },
     input: {
         paddingHorizontal: 2,
@@ -277,15 +278,15 @@ const styles = StyleSheet.create({
     switch: {
         marginEnd: Dimensions.get('window').width > 320 ? '10%' : 0
     },
-    closeIcon : {
-        alignItems : 'flex-end'
+    closeIcon: {
+        alignItems: 'flex-end'
     },
-    chemicalHeader : {
-        flexDirection : "row"
+    chemicalHeader: {
+        flexDirection: "row"
     },
-    chemicalIcon : {
-        justifyContent : 'center',
-        alignItems : 'center'
+    chemicalIcon: {
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 

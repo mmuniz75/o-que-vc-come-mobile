@@ -44,7 +44,7 @@ const SearchScreen = props => {
                             <TouchableOpacity>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
-                                    size={23}
+                                    size={32}
                                 />
                             </TouchableOpacity>
                         </View>
