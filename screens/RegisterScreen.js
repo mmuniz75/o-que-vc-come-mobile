@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal,Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -9,8 +9,27 @@ import { CHEMICALS } from '../services/chemicalService'
 import Card from '../components/UI/Card';
 
 const save = (navigation) => {
-    console.log('saved !');
-    navigation.navigate('Main');
+    Alert.alert('Confirmação', 'Cadastrado realizado', [
+        {
+          text: 'OK',
+          style: 'default',
+          onPress: () => {
+            navigation.navigate('Main');
+          }
+        }
+      ]);
+}
+
+const add = (setModal) => {
+    Alert.alert('Confirmação', 'Item adicionado', [
+        {
+          text: 'OK',
+          style: 'default',
+          onPress: () => {
+            setModal(false)
+          }
+        }
+      ]);
 }
 
 
@@ -38,12 +57,14 @@ const RegisterScreen = props => {
     const [brand, setBrand] = useState('');
     const [food, setFood] = useState('');
 
+    const [showModal, setModal] = useState(false);
+
     return (
         <ScrollView>
-            <Modal animationType='slide' visible={false}>
+            <Modal animationType='slide' visible={showModal}>
                 <View style={styles.modal}>
                     <View style={styles.formControl}>
-                        <Text style={styles.label} >Digite o nome do alimento</Text>
+                        <Text style={styles.label} >Digite o nome do item</Text>
                         <View style={styles.textContainer}>
                             <TextInput
                                 style={styles.input}
@@ -54,7 +75,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
                                     size={32}
-                                    onPress={() => console.log('adicionado')}
+                                    onPress={() => add(setModal)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -77,6 +98,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
                                     size={32}
+                                    onPress={() => {}}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -93,7 +115,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
-                                    onPress={() => console.log('adicionado')}
+                                    onPress={() => setModal(true)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -111,7 +133,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
-                                    onPress={() => console.log(Dimensions.get('window').width)}
+                                    onPress={() => setModal(true)}
                                 />
                             </TouchableOpacity>
                         </View>
