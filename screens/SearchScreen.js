@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { CHEMICALS } from '../services/chemicalService'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import Colors from '../constants/Colors';
+
 import Card from '../components/UI/Card';
 
 
@@ -118,7 +120,8 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 14,
-        textAlign: 'center'
+        textAlign: 'center',
+        color : Colors.primaryColor
     },
     textContainer: {
         flexDirection: 'row'

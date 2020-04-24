@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal,Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -11,25 +11,18 @@ import Card from '../components/UI/Card';
 const save = (navigation) => {
     Alert.alert('Confirmação', 'Cadastrado realizado', [
         {
-          text: 'OK',
-          style: 'default',
-          onPress: () => {
-            navigation.navigate('Main');
-          }
+            text: 'OK',
+            style: 'default',
+            onPress: () => {
+                navigation.navigate('Main');
+            }
         }
-      ]);
+    ]);
 }
 
 const add = (setModal) => {
-    Alert.alert('Confirmação', 'Item adicionado', [
-        {
-          text: 'OK',
-          style: 'default',
-          onPress: () => {
-            setModal(false)
-          }
-        }
-      ]);
+    setModal(false);
+
 }
 
 
@@ -61,23 +54,38 @@ const RegisterScreen = props => {
 
     return (
         <ScrollView>
-            <Modal animationType='slide' visible={showModal}>
-                <View style={styles.modal}>
-                    <View style={styles.formControl}>
-                        <Text style={styles.label} >Digite o nome do item</Text>
-                        <View style={styles.textContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={food}
-                                onChangeText={text => setFood(text)}
-                            />
-                            <TouchableOpacity>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-                                    size={32}
-                                    onPress={() => add(setModal)}
+            <Modal animationType='slide'
+                visible={showModal}
+                transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modal}>
+                        <View style={styles.formControl}>
+                            <View style={styles.closeIcon}>
+                                <TouchableOpacity>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
+                                        size={25}
+                                        onPress={() => add(setModal)}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={styles.label} >Digite o nome do item</Text>
+                            <View style={styles.textContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    value={food}
+                                    onChangeText={text => setFood(text)}
                                 />
-                            </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                                        size={32}
+                                        color='green'
+                                        onPress={() => add(setModal)}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+
                         </View>
                     </View>
                 </View>
@@ -98,7 +106,7 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
                                     size={32}
-                                    onPress={() => {}}
+                                    onPress={() => { }}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -173,13 +181,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    modal: {
+    modalContainer: {
         flex: 1,
-        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.7)',
         alignItems: 'center',
-        padding: 10,
-        width : '90%',
-        margin : '5%'
+        justifyContent: 'center',
+    },
+    modal: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
     item: {
         fontFamily: 'open-sans',
@@ -210,13 +231,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontFamily: 'open-sans-bold',
         fontSize: 14,
-        textAlign: 'center'
+        textAlign: 'center',
+        color : Colors.primaryColor
     },
     textChemical: {
         margin: 20,
-        fontFamily: 'open-sans',
+        fontFamily: 'open-sans-bold',
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'center',
+        color : Colors.primaryColor
     },
     textContainer: {
         flexDirection: 'row'
@@ -233,6 +256,7 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         marginVertical: 8,
         fontSize: 16,
+        color : Colors.primaryColor
     },
     input: {
         paddingHorizontal: 2,
@@ -246,6 +270,9 @@ const styles = StyleSheet.create({
     },
     switch: {
         marginEnd: Dimensions.get('window').width > 320 ? '10%' : 0
+    },
+    closeIcon : {
+        alignItems : 'flex-end'
     }
 });
 
