@@ -8,6 +8,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 
 import Card from '../components/UI/Card';
+import Autocomplete from 'react-native-autocomplete-input'
+
+
+import { YellowBox } from 'react-native'
+
+
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+])
 
 
 const Chemical = props => {
@@ -22,13 +31,32 @@ const Chemical = props => {
     )
 }
 
+
+
+
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
-    const [food, setFood] = useState('');
+    const data = ['uva','maca', 'banana'];
+    const [filter, setFilter] = useState([]);
+    const [food, setFood] = useState();
 
+    const selectFood= (value) => {
+        setFood(value);
+        if(value!="")
+            setFilter(data.filter(food => food.toLowerCase().indexOf(value.toLowerCase())>-1))
+        else
+            setFilter([])    
+    }
+
+    const clickFood = (value) => {
+        setFood(value)
+        setFilter([])    
+    }
+    
+    
     return (
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
             <View style={styles.screen}>
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
                 <View style={styles.form}>
@@ -49,15 +77,30 @@ const SearchScreen = props => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.formControl}>
-                        <TextInput
-                            style={styles.input}
-                            value={food}
-                            onChangeText={text => setFood(text)}
-                            placeholder='Escolha o alimento'
+                    
+                        <Autocomplete
+                            data={filter}
+                            keyExtractor={(item,index) => index.toString()}
+                            inputContainerStyle={styles.autocompleteContainer}
+                            listStyle={styles.listStyle}
+                            renderTextInput= {() => (
+                                <View style={styles.formControl}>
+                                    <TextInput
+                                        value={food}
+                                        style={styles.input}
+                                        placeholder='Escolha o alimento'
+                                        onChangeText={text => selectFood(text)}
+                                    />    
+                                </View>    
+                            )}
+                            renderItem={({ item, i }) => (
+                                <TouchableOpacity onPress={() => clickFood(item)}>
+                                    <Text style={styles.input}> {item}</Text>
+                                </TouchableOpacity>
+                        )}
                         />
-                    </View>
-                    {!food ? null : (
+                    
+                    {!food | true? null : (
                         <View style={styles.formControl}>
                             <TextInput
                                 style={styles.input}
@@ -143,6 +186,12 @@ const styles = StyleSheet.create({
         width: '90%',
         fontSize : 20,
         fontFamily: 'open-sans',
+    },
+    autocompleteContainer: {
+        borderWidth: 0
+      },
+    listStyle: {
+        marginTop: -20
     }
 });
 
