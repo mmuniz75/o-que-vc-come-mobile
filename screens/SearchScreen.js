@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-import { CHEMICALS } from '../services/chemicalService'
-import foods from '../data/foods'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Colors from '../constants/Colors';
@@ -12,6 +9,11 @@ import Chemical from '../components/UI/Chemical';
 import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
 
+import { CHEMICALS } from '../services/chemicalService'
+import foodsData from '../data/foods'
+import brandsData from '../data/brands'
+
+
 import { YellowBox } from 'react-native'
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -19,24 +21,39 @@ YellowBox.ignoreWarnings([
 
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
-    const [brand, setBrand] = useState('');
-    const data = foods
-    const [filter, setFilter] = useState([]);
     const [food, setFood] = useState({});
+    const [foods, setFoods] = useState([]);
+    const [brand, setBrand] = useState({});
+    const [brands, setBrands] = useState([]);
     
     const selectFood= (value) => {
         setFood(new Model(-1, value))
         if(value!="")
-            setFilter(data.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
+            setFoods(foodsData.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
         else
-            setFilter([])    
+            setFoods([])    
     }
 
     const clickFood = (value) => {
         console.log(`escolhido alimento ${value.id}`)
         setFood(value)
-        setFilter([])    
+        setFoods([])    
     }
+
+    const selectBrand= (value) => {
+        setBrand(new Model(-1, value))
+        if(value!="")
+            setBrands(brandsData.filter(brand => brand.name.toLowerCase().indexOf(value.toLowerCase())>-1))
+        else
+            setBrands([])    
+    }
+
+    const clickBrand = (value) => {
+        console.log(`escolhido marca ${value.id}`)
+        setBrand(value)
+        setBrands([])    
+    }
+    
     
     
     return (
@@ -63,7 +80,7 @@ const SearchScreen = props => {
                     </View>
                     <View style={styles.formControl}>
                         <Autocomplete
-                            data={filter}
+                            data={foods}
                             value={food.name}
                             placeholder='Escolha o alimento'
                             onChangeText={text => selectFood(text)}
@@ -72,11 +89,12 @@ const SearchScreen = props => {
                     </View>                    
                     {!food? null : (
                         <View style={styles.formControl}>
-                            <TextInput
-                                style={styles.input}
-                                value={brand}
-                                onChangeText={text => setBrand(text)}
-                                placeholder='Escolha a Marca'
+                            <Autocomplete
+                                data={brands}
+                                value={brand.name}
+                                placeholder='Escolha o marca'
+                                onChangeText={text => selectBrand(text)}
+                                onPress={item => clickBrand(item)}
                             />
                         </View>
                     )}
@@ -136,12 +154,6 @@ const styles = StyleSheet.create({
         width: '90%',
         fontSize : 20,
         fontFamily: 'open-sans',
-    },
-    autocompleteContainer: {
-        borderWidth: 0
-      },
-    listStyle: {
-        zIndex: 1000
     }
 });
 
