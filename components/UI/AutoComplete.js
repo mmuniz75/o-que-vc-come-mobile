@@ -21,7 +21,7 @@ const autComp = props => {
                     )}
                     renderItem={({ item, i }) => (
                         <TouchableOpacity onPress={() => props.onPress(item)}>
-                            <Text style={styles.input}> {item}</Text>
+                            <Text style={styles.input}> {item.name}</Text>
                         </TouchableOpacity>
                     )}
             />

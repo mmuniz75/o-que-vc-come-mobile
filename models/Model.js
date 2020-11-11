@@ -1,4 +1,4 @@
-class Chemical {
+class Model {
 
     constructor(id,name){
         this.id = id,
@@ -6,4 +6,4 @@ class Chemical {
     }
 }
 
-export default Chemical;
+export default Model;

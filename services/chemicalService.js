@@ -1,4 +1,4 @@
-import Chemical from '../models/Chemical';
+import Chemical from '../models/Model';
 
 export const CHEMICALS = [
     new Chemical('1','Ácido Acético Glacial'),

@@ -3,11 +3,13 @@ import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView } from 
 import { Ionicons } from '@expo/vector-icons';
 
 import { CHEMICALS } from '../services/chemicalService'
+import foods from '../data/foods'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Colors from '../constants/Colors';
 
 import Chemical from '../components/UI/Chemical';
+import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
 
 import { YellowBox } from 'react-native'
@@ -18,19 +20,20 @@ YellowBox.ignoreWarnings([
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
-    const data = ["Achocolatado em pó", "Açúcar demerara", "Açúcar mascavo", "Aveia em flocos", "Banana", "Bebida de fruta adocada", "Biscoito recheado de goiaba", "Biscoito Salgado Água Gergelim"];
+    const data = foods
     const [filter, setFilter] = useState([]);
-    const [food, setFood] = useState();
-
+    const [food, setFood] = useState({});
+    
     const selectFood= (value) => {
-        setFood(value);
+        setFood(new Model(-1, value))
         if(value!="")
-            setFilter(data.filter(food => food.toLowerCase().indexOf(value.toLowerCase())>-1))
+            setFilter(data.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
         else
             setFilter([])    
     }
 
     const clickFood = (value) => {
+        console.log(`escolhido alimento ${value.id}`)
         setFood(value)
         setFilter([])    
     }
@@ -61,7 +64,7 @@ const SearchScreen = props => {
                     <View style={styles.formControl}>
                         <Autocomplete
                             data={filter}
-                            value={food}
+                            value={food.name}
                             placeholder='Escolha o alimento'
                             onChangeText={text => selectFood(text)}
                             onPress={item => clickFood(item)}
