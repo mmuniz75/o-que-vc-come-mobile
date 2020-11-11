@@ -7,37 +7,18 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Colors from '../constants/Colors';
 
-import Card from '../components/UI/Card';
-import Autocomplete from 'react-native-autocomplete-input'
-
+import Chemical from '../components/UI/Chemical';
+import Autocomplete from '../components/UI/AutoComplete'
 
 import { YellowBox } from 'react-native'
-
-
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
 
-
-const Chemical = props => {
-    return (
-        <View style={styles.list}>
-            <TouchableOpacity onPress={() => { }}>
-                <View style={styles.items}>
-                    <Text style={styles.item} key={props.id} >{props.name}</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    )
-}
-
-
-
-
 const SearchScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
-    const data = ['uva','maca', 'banana'];
+    const data = ["Achocolatado em pó", "Açúcar demerara", "Açúcar mascavo", "Aveia em flocos", "Banana", "Bebida de fruta adocada", "Biscoito recheado de goiaba", "Biscoito Salgado Água Gergelim"];
     const [filter, setFilter] = useState([]);
     const [food, setFood] = useState();
 
@@ -56,7 +37,7 @@ const SearchScreen = props => {
     
     
     return (
-        <ScrollView keyboardShouldPersistTaps="always">
+        <ScrollView >
             <View style={styles.screen}>
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
                 <View style={styles.form}>
@@ -77,30 +58,16 @@ const SearchScreen = props => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
+                    <View style={styles.formControl}>
                         <Autocomplete
                             data={filter}
-                            keyExtractor={(item,index) => index.toString()}
-                            inputContainerStyle={styles.autocompleteContainer}
-                            listStyle={styles.listStyle}
-                            renderTextInput= {() => (
-                                <View style={styles.formControl}>
-                                    <TextInput
-                                        value={food}
-                                        style={styles.input}
-                                        placeholder='Escolha o alimento'
-                                        onChangeText={text => selectFood(text)}
-                                    />    
-                                </View>    
-                            )}
-                            renderItem={({ item, i }) => (
-                                <TouchableOpacity onPress={() => clickFood(item)}>
-                                    <Text style={styles.input}> {item}</Text>
-                                </TouchableOpacity>
-                        )}
+                            value={food}
+                            placeholder='Escolha o alimento'
+                            onChangeText={text => selectFood(text)}
+                            onPress={item => clickFood(item)}
                         />
-                    
-                    {!food | true? null : (
+                    </View>                    
+                    {!food? null : (
                         <View style={styles.formControl}>
                             <TextInput
                                 style={styles.input}
@@ -110,14 +77,14 @@ const SearchScreen = props => {
                             />
                         </View>
                     )}
-                </View>
+                
                 <Button style={styles.button} title="Não achei meu alimento" onPress={() => {
                     props.navigation.navigate('Register')
                 }
                 } />
                 
                 {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
-                
+                </View>
             </View>
         </ScrollView>
     )
@@ -135,29 +102,9 @@ const styles = StyleSheet.create({
         padding: 100,
         borderRadius: 20,
     },
-    item: {
-        fontFamily: 'open-sans',
-        fontSize: 16,
-    },
-    items: {
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
-        borderRadius: 10,
-        backgroundColor: 'white',
-        marginHorizontal: 20,
-        marginVertical: 10,
-        padding: 10,
-        alignItems: 'center',
-    },
     touchable: {
         borderRadius: 10,
         overflow: 'hidden'
-    },
-    list: {
-        width: '100%',
     },
     text: {
         marginVertical: 20,
@@ -191,7 +138,7 @@ const styles = StyleSheet.create({
         borderWidth: 0
       },
     listStyle: {
-        marginTop: -20
+        zIndex: 1000
     }
 });
 
