@@ -20,10 +20,11 @@ YellowBox.ignoreWarnings([
 ])
 
 const SearchScreen = props => {
+    const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
-    const [food, setFood] = useState({});
+    const [food, setFood] = useState(startObject);
     const [foods, setFoods] = useState([]);
-    const [brand, setBrand] = useState({});
+    const [brand, setBrand] = useState(startObject);
     const [brands, setBrands] = useState([]);
     
     const selectFood= (value) => {
@@ -98,13 +99,16 @@ const SearchScreen = props => {
                             />
                         </View>
                     )}
+                    {food.name == "" || brand.name == "" ? (
+                                        <View style={styles.button}>
+                                            <Button title="Não achei meu alimento" onPress={() => props.navigation.navigate('Register')} />
+                                        </View>
+                                        ):null}
+                    
                 
-                <Button style={styles.button} title="Não achei meu alimento" onPress={() => {
-                    props.navigation.navigate('Register')
+                {
+                    food.id > 0 && brand.id > 0 ? CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />) : null
                 }
-                } />
-                
-                {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 </View>
             </View>
         </ScrollView>
@@ -119,9 +123,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        margin: 100,
-        padding: 100,
-        borderRadius: 20,
+        marginTop : 1,
+        padding: 10,
+        borderRadius: 50,
     },
     touchable: {
         borderRadius: 10,
