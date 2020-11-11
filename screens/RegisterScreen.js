@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/UI/HeaderButton';
 
-import { CHEMICALS } from '../services/chemicalService'
+import chemicals  from '../data/chemicals'
 import Card from '../components/UI/Card';
 
 const save = (navigation) => {
@@ -157,7 +157,7 @@ const RegisterScreen = props => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    {CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
+                    {chemicals.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
                 </View>
 
             </View>
