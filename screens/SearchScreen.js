@@ -12,7 +12,6 @@ import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
 
 import { CHEMICALS } from '../services/chemicalService'
-import brandsData from '../data/brands'
 
 import * as actions from '../store/actions'
 
@@ -24,6 +23,8 @@ YellowBox.ignoreWarnings([
 
 const SearchScreen = props => {
     const foodsData = useSelector(state => state.foods);
+    let brandsData = useSelector(state => state.brands);
+
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -46,9 +47,10 @@ const SearchScreen = props => {
     }
 
     const clickFood = (value) => {
-        console.log(`escolhido alimento ${value.id}`)
         setFood(value)
         setFoods([])    
+        setBrand("")
+        dispatch(actions.getBrands(value.id));
     }
 
     const selectBrand= (value) => {
@@ -60,13 +62,10 @@ const SearchScreen = props => {
     }
 
     const clickBrand = (value) => {
-        console.log(`escolhido marca ${value.id}`)
         setBrand(value)
         setBrands([])    
     }
-    
-    
-    
+        
     return (
         <ScrollView >
             <View style={styles.screen}>
@@ -98,7 +97,7 @@ const SearchScreen = props => {
                             onPress={item => clickFood(item)}
                         />
                     </View>                    
-                    {!food? null : (
+                    {food.name !="" && (
                         <View style={styles.formControl}>
                             <Autocomplete
                                 data={brands}
