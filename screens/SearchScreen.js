@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from '../constants/Colors';
 
@@ -10,8 +12,9 @@ import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
 
 import { CHEMICALS } from '../services/chemicalService'
-import foodsData from '../data/foods'
 import brandsData from '../data/brands'
+
+import * as actions from '../store/actions'
 
 
 import { YellowBox } from 'react-native'
@@ -20,6 +23,13 @@ YellowBox.ignoreWarnings([
 ])
 
 const SearchScreen = props => {
+    const foodsData = useSelector(state => state.foods);
+    const dispatch = useDispatch();
+  
+    useEffect(() => {
+      dispatch(actions.fetchFoods());
+    }, [dispatch]);
+
     const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
     const [food, setFood] = useState(startObject);

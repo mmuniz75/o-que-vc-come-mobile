@@ -1,4 +1,5 @@
-const foods = [
+const foods = [];
+const _foods = [
     {
         "id": 18,
         "name": "Achocolatado em pó"
