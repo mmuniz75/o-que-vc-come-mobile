@@ -1,9 +1,9 @@
-import { SET_FOODS, SET_BRANDS } from './actions';
-import Model from '../models/Model';
+import { SET_FOODS, SET_BRANDS, SET_CHEMICALS } from './actions';
 
 const initialState = {
   foods: [],
-  brands: []
+  brands: [],
+  chemicals: []
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +17,11 @@ export default (state = initialState, action) => {
       return {
         ...state,  
         brands: action.brands
+      };
+    case SET_CHEMICALS:
+      return {
+        ...state,  
+        chemicals: action.chemicals
       };
     default:
       return state;

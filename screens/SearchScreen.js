@@ -11,8 +11,6 @@ import Chemical from '../components/UI/Chemical';
 import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
 
-import { CHEMICALS } from '../services/chemicalService'
-
 import * as actions from '../store/actions'
 
 
@@ -24,12 +22,17 @@ YellowBox.ignoreWarnings([
 const SearchScreen = props => {
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
+    let chemicalsRoot = useSelector(state => state.chemicals);
 
     const dispatch = useDispatch();
   
     useEffect(() => {
       dispatch(actions.fetchFoods());
     }, [dispatch]);
+
+    useEffect(() => {
+        setBarcode(chemicalsRoot.bar_code)
+    }, [chemicalsRoot]);
 
     const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
@@ -50,6 +53,7 @@ const SearchScreen = props => {
         setFood(value)
         setFoods([])    
         setBrand("")
+        setBarcode("")
         dispatch(actions.getBrands(value.id));
     }
 
@@ -63,7 +67,8 @@ const SearchScreen = props => {
 
     const clickBrand = (value) => {
         setBrand(value)
-        setBrands([])    
+        setBrands([]) 
+        dispatch(actions.getChemcals(food.id, value.id));   
     }
         
     return (
@@ -116,7 +121,9 @@ const SearchScreen = props => {
                     
                 
                 {
-                    food.id > 0 && brand.id > 0 ? CHEMICALS.map(chemical => <Chemical name={chemical.name} key={chemical.id} />) : null
+                    food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals
+                    ? chemicalsRoot.chemicals.map(chemical => <Chemical key={chemical} name={chemical} />) 
+                    : null
                 }
                 </View>
             </View>
