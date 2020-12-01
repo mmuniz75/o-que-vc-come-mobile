@@ -45,11 +45,12 @@ const SearchScreen = props => {
     }, [brandsData]);
 
     useEffect(() => {
-        if(!foods)
+        if(!foodsData || !barCodeSet)
             return
         
         const food = foodsData.find(f => f.id == barCodeSet.foodId)
-        clickFood(food, false)
+        if(food)
+            clickFood(food, false)
     }, [ barCodeSet]);
 
     const startObject = new Model(-1, "")

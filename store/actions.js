@@ -58,7 +58,7 @@ export const getBrands = (foodId) => {
       }
     };
   };
-
+  
   export const getFromBarcode = (barcode) => {
     return async dispatch => {
       try {
