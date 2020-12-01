@@ -23,6 +23,7 @@ const SearchScreen = props => {
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
     let chemicalsRoot = useSelector(state => state.chemicals);
+    let barCodeSet = useSelector(state => state.barcode);
 
     const dispatch = useDispatch();
   
@@ -34,12 +35,39 @@ const SearchScreen = props => {
         setBarcode(chemicalsRoot.bar_code)
     }, [chemicalsRoot]);
 
+    useEffect(() => {
+        if(barCodeSet.brandId && brandsData){
+            const brand = brandsData.find(b => b.id == barCodeSet.brandId)
+            if (brand)
+                clickBrand(brand)
+        }
+            
+    }, [brandsData]);
+
+    useEffect(() => {
+        if(!foods)
+            return
+        
+        const food = foodsData.find(f => f.id == barCodeSet.foodId)
+        clickFood(food, false)
+    }, [ barCodeSet]);
+
     const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
     const [food, setFood] = useState(startObject);
     const [foods, setFoods] = useState([]);
     const [brand, setBrand] = useState(startObject);
     const [brands, setBrands] = useState([]);
+
+    const seekFromBarcode = (value) => {
+        setBrand("")
+        setFood("")
+        setBarcode(value)
+        if (value.length < 13)
+            return
+        
+        dispatch(actions.getFromBarcode(value))    
+    }
     
     const selectFood= (value) => {
         setFood(new Model(-1, value))
@@ -49,11 +77,13 @@ const SearchScreen = props => {
             setFoods([])    
     }
 
-    const clickFood = (value) => {
+    const clickFood = (value, clean) => {
         setFood(value)
         setFoods([])    
-        setBrand("")
-        setBarcode("")
+        if(clean) {
+            setBrand("")
+            setBarcode("")
+        }    
         dispatch(actions.getBrands(value.id));
     }
 
@@ -81,7 +111,7 @@ const SearchScreen = props => {
                             <TextInput
                                 style={styles.input}
                                 value={barcode}
-                                onChangeText={text => setBarcode(text)}
+                                onChangeText={text => seekFromBarcode(text)}
                                 keyboardType='number-pad'
                                 placeholder='Codigo de barra'
                             />
@@ -99,7 +129,7 @@ const SearchScreen = props => {
                             value={food.name}
                             placeholder='Escolha o alimento'
                             onChangeText={text => selectFood(text)}
-                            onPress={item => clickFood(item)}
+                            onPress={item => clickFood(item, true)}
                         />
                     </View>                    
                     {food.name !="" && (

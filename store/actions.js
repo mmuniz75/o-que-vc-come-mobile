@@ -3,6 +3,7 @@ import ENV from '../env'
 export const SET_FOODS = 'SET_FOODS';
 export const SET_BRANDS = 'SET_BRANDS';
 export const SET_CHEMICALS = 'SET_CHEMICALS';
+export const GET_FROM_BARCODE = 'GET_FROM_BARCODE';
 
 export const fetchFoods = () => {
   return async dispatch => {
@@ -50,9 +51,26 @@ export const getBrands = (foodId) => {
         }
   
         const resData = await response.json();
-        console.log(`chemicals = ${resData.chemicals}`)
   
         dispatch({ type: SET_CHEMICALS, chemicals: resData });
+      } catch (err) {
+        console.log(err); 
+      }
+    };
+  };
+
+  export const getFromBarcode = (barcode) => {
+    return async dispatch => {
+      try {
+        const response = await fetch(`${ENV().server}/brands/foods/${barcode}`);
+  
+        if (!response.ok) {
+          throw new Error('Something went wrong!');
+        }
+  
+        const resData = await response.json();
+  
+        dispatch({ type: GET_FROM_BARCODE, barcode: resData });
       } catch (err) {
         console.log(err); 
       }

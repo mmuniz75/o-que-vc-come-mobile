@@ -1,9 +1,10 @@
-import { SET_FOODS, SET_BRANDS, SET_CHEMICALS } from './actions';
+import { SET_FOODS, SET_BRANDS, SET_CHEMICALS, GET_FROM_BARCODE } from './actions';
 
 const initialState = {
   foods: [],
   brands: [],
-  chemicals: []
+  chemicals: [],
+  barcode : {}
 };
 
 export default (state = initialState, action) => {
@@ -22,6 +23,11 @@ export default (state = initialState, action) => {
       return {
         ...state,  
         chemicals: action.chemicals
+      };
+    case GET_FROM_BARCODE:
+      return {
+        ...state,  
+        barcode: action.barcode
       };
     default:
       return state;
