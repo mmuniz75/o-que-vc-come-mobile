@@ -71,6 +71,7 @@ const SearchScreen = props => {
     }
     
     const selectFood= (value) => {
+        setBarcode("")
         setFood(new Model(-1, value))
         if(value!="")
             setFoods(foodsData.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
@@ -89,6 +90,7 @@ const SearchScreen = props => {
     }
 
     const selectBrand= (value) => {
+        setBarcode("")
         setBrand(new Model(-1, value))
         if(value!="")
             setBrands(brandsData.filter(brand => brand.name.toLowerCase().indexOf(value.toLowerCase())>-1))
