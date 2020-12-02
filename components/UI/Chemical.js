@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Chemical = props => {
+
+    const openLink = name => {
+        const google = `https://www.google.com/search?q=${name}`
+        Linking.openURL(google)
+        .catch((err) => 
+            console.error('An error occurred', err)
+        );
+    }
+        
     return (
         <View style={styles.list}>
-            <TouchableOpacity onPress={() => { }}>
+            <TouchableOpacity onPress={() => openLink(props.name)}>
                 <View style={styles.items}>
                     <Text style={styles.item} key={props.id} >{props.name}</Text>
                 </View>
@@ -13,7 +22,6 @@ const Chemical = props => {
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     item: {
