@@ -1,36 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert,KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert,KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/UI/HeaderButton';
-
-import chemicals  from '../data/chemicals'
-import Card from '../components/UI/Card';
-
-const save = (navigation) => {
-    Alert.alert('Confirmação', 'Cadastrado realizado', [
-        {
-            text: 'OK',
-            style: 'default',
-            onPress: () => {
-                navigation.navigate('Main');
-            }
-        }
-    ]);
-}
-
-const add = (setModal) => {
-    setModal(false);
-
-}
-
-
-const setCheck = (index, value, chemicalsCheck, setChemicallCheck) => {
-    const updatedChecks = [...chemicalsCheck];
-    updatedChecks[index] = value;
-    setChemicallCheck(updatedChecks);
-}
+import * as actions from '../store/actions'
 
 const Chemical = props => {
     return <View style={styles.items} >
@@ -45,12 +20,66 @@ const Chemical = props => {
 }
 
 const RegisterScreen = props => {
+    const [isLoading, setIsLoading] = useState(false);
     const [chemicalsCheck, setChemicallCheck] = useState(false);
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
     const [food, setFood] = useState('');
-
     const [showModal, setModal] = useState(false);
+
+    const chemicals = useSelector(state => state.all_chemicals);
+    const foods = useSelector(state => state.foods);
+
+    const dispatch = useDispatch();
+    
+    const loadChemicals = useCallback(async () => {
+        try{
+            if(chemicals.length > 0)
+                return;
+            await dispatch(actions.fetchChemicals());
+            console.log("chemicals LOADED !")
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }  
+    }, []);
+
+    useEffect(() => {
+        setIsLoading(true);
+        loadChemicals().then(() => {
+          setIsLoading(false);
+        });
+      }, [dispatch]);
+
+    const save = (navigation) => {
+        Alert.alert('Confirmação', 'Cadastrado realizado', [
+            {
+                text: 'OK',
+                style: 'default',
+                onPress: () => {
+                    navigation.navigate('Main');
+                }
+            }
+        ]);
+    }
+    
+    const add = (setModal) => {
+        setModal(false);
+    }
+    
+    
+    const setCheck = (index, value, chemicalsCheck, setChemicallCheck) => {
+        const updatedChecks = [...chemicalsCheck];
+        updatedChecks[index] = value;
+        setChemicallCheck(updatedChecks);
+    }
+
+    if (isLoading) {
+        return (
+          <View style={styles.screen}>
+            <ActivityIndicator size="large" color={Colors.primary} />
+          </View>
+        );
+      }
 
     return (
         <ScrollView>
@@ -157,7 +186,9 @@ const RegisterScreen = props => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    {chemicals.map(chemical => <Chemical name={chemical.name} key={chemical.id} />)}
+                    {
+                        chemicals ? chemicals.map(chemical => <Chemical name={chemical.name} key={chemical.id} />):null
+                    }
                 </View>
 
             </View>
