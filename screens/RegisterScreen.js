@@ -28,6 +28,7 @@ const RegisterScreen = props => {
     const [showModal, setModal] = useState(false);
 
     const chemicals = useSelector(state => state.all_chemicals);
+    const brands = useSelector(state => state.all_brands);
     const foods = useSelector(state => state.foods);
 
     const dispatch = useDispatch();
@@ -43,10 +44,23 @@ const RegisterScreen = props => {
         }  
     }, []);
 
+    const loadBrands = useCallback(async () => {
+        try{
+            if(brands.length > 0)
+                return;
+            await dispatch(actions.fetchBrands());
+            console.log("brands LOADED !")
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }  
+    }, []);
+
     useEffect(() => {
         setIsLoading(true);
-        loadChemicals().then(() => {
-          setIsLoading(false);
+        loadChemicals()
+        .then(() => loadBrands())
+        .then(() => {
+            setIsLoading(false);
         });
       }, [dispatch]);
 

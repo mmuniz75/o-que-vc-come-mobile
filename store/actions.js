@@ -4,6 +4,7 @@ export const SET_FOODS = 'SET_FOODS';
 export const SET_BRANDS = 'SET_BRANDS';
 export const SET_CHEMICALS = 'SET_CHEMICALS';
 export const SET_ALL_CHEMICALS = 'SET_ALL_CHEMICALS';
+export const SET_ALL_BRANDS = 'SET_ALL_BRANDS';
 export const GET_FROM_BARCODE = 'GET_FROM_BARCODE';
 
 export const fetchFoods = () => {
@@ -14,6 +15,18 @@ export const fetchFoods = () => {
         throwError(resData, response.status)
 
     dispatch({ type: SET_FOODS, foods: resData });
+
+  };
+};
+
+export const fetchBrands = () => {
+  return async dispatch => {
+    const response = await fetch(`${ENV().server}/brands`);
+    const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
+        
+    dispatch({ type: SET_ALL_BRANDS, allBrands: resData });
 
   };
 };
