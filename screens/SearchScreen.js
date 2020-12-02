@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -20,6 +20,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const SearchScreen = props => {
+    const [isLoading, setIsLoading] = useState(false);
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
     let chemicalsRoot = useSelector(state => state.chemicals);
@@ -27,9 +28,16 @@ const SearchScreen = props => {
 
     const dispatch = useDispatch();
   
+    const loadFoods = useCallback(async () => {
+      await dispatch(actions.fetchFoods());
+    }, [dispatch, setIsLoading ]);
+
     useEffect(() => {
-      dispatch(actions.fetchFoods());
-    }, [dispatch]);
+        setIsLoading(true);
+        loadFoods().then(() => {
+          setIsLoading(false);
+        });
+      }, [dispatch, loadFoods]);
 
     useEffect(() => {
         setBarcode(chemicalsRoot.bar_code)
@@ -60,14 +68,16 @@ const SearchScreen = props => {
     const [brand, setBrand] = useState(startObject);
     const [brands, setBrands] = useState([]);
 
-    const seekFromBarcode = (value) => {
+    const seekFromBarcode = async (value) => {
         setBrand("")
         setFood("")
         setBarcode(value)
         if (value.length < 13)
             return
         
-        dispatch(actions.getFromBarcode(value))    
+        setIsLoading(true);
+        await dispatch(actions.getFromBarcode(value))    
+        setIsLoading(false);
     }
     
     const selectFood= (value) => {
@@ -79,14 +89,17 @@ const SearchScreen = props => {
             setFoods([])    
     }
 
-    const clickFood = (value, clean) => {
+    const clickFood = async (value, clean) => {
         setFood(value)
         setFoods([])    
         if(clean) {
             setBrand("")
             setBarcode("")
         }    
-        dispatch(actions.getBrands(value.id));
+        
+        setIsLoading(true);
+        await dispatch(actions.getBrands(value.id));
+        setIsLoading(false);
     }
 
     const selectBrand= (value) => {
@@ -98,12 +111,24 @@ const SearchScreen = props => {
             setBrands([])    
     }
 
-    const clickBrand = (value) => {
+    const clickBrand = async (value) => {
         setBrand(value)
         setBrands([]) 
-        dispatch(actions.getChemcals(food.id, value.id));   
+
+        setIsLoading(true);
+        await dispatch(actions.getChemcals(food.id, value.id));   
+        setIsLoading(false);
     }
-        
+
+    if (isLoading) {
+        return (
+          <View style={styles.screen}>
+            <ActivityIndicator size="large" color={Colors.primary} />
+          </View>
+        );
+      }
+
+
     return (
         <ScrollView >
             <View style={styles.screen}>

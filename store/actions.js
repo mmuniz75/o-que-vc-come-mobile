@@ -63,12 +63,12 @@ export const getBrands = (foodId) => {
     return async dispatch => {
       try {
         const response = await fetch(`${ENV().server}/brands/foods/${barcode}`);
-  
-        if (!response.ok) {
-          throw new Error('Something went wrong!');
-        }
-  
         const resData = await response.json();
+                
+        if (!response.ok) {
+          const message = resData && resData.message ? resData.message : "Something went wrong!"
+          throw new Error(message);
+        }
   
         dispatch({ type: GET_FROM_BARCODE, barcode: resData });
       } catch (err) {
