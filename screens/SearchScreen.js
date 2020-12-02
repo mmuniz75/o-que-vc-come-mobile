@@ -21,7 +21,6 @@ YellowBox.ignoreWarnings([
 
 const SearchScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState();
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
     let chemicalsRoot = useSelector(state => state.chemicals);
@@ -30,7 +29,11 @@ const SearchScreen = props => {
     const dispatch = useDispatch();
   
     const loadFoods = useCallback(async () => {
-      await dispatch(actions.fetchFoods());
+        try{
+            await dispatch(actions.fetchFoods());
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }  
     }, []);
 
     useEffect(() => {
@@ -62,11 +65,6 @@ const SearchScreen = props => {
             clickFood(food, false)
     }, [ barCodeSet]);
 
-    useEffect(() => {
-        if (error) {
-          Alert.alert('Mensagem', error, [{ text: 'Fechar' }]);
-        }
-      }, [error]);
 
     const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
@@ -109,7 +107,11 @@ const SearchScreen = props => {
         }    
         
         setIsLoading(true);
-        await dispatch(actions.getBrands(value.id));
+        try{
+            await dispatch(actions.getBrands(value.id));
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }    
         setIsLoading(false);
     }
 
@@ -127,7 +129,11 @@ const SearchScreen = props => {
         setBrands([]) 
 
         setIsLoading(true);
-        await dispatch(actions.getChemcals(food.id, value.id));   
+        try{
+            await dispatch(actions.getChemcals(food.id, value.id));   
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }    
         setIsLoading(false);
     }
 
