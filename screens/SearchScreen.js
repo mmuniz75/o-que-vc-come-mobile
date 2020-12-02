@@ -194,7 +194,8 @@ const SearchScreen = props => {
                                         </View>
                                         ):null}
                     
-                
+
+                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && <Text style={styles.text}>Pressione no produto quimico para saber mais sobre ele.</Text>}
                 {
                     food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals
                     ? chemicalsRoot.chemicals.map(chemical => <Chemical key={chemical} name={chemical} />) 
