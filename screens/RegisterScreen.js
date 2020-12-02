@@ -87,6 +87,23 @@ const RegisterScreen = props => {
         setChemicallCheck(updatedChecks);
     }
 
+    const checkBarcode = async (value) => {
+        setBarcode(value)
+        if (value.length < 13)
+            return
+        
+        setIsLoading(true);
+        try{
+            await dispatch(actions.getFromBarcode(value))    
+            Alert.alert('Mensagem', 'Código de barras já cadastrado', [{ text: 'Fechar' }]);
+            setBarcode('')
+        }catch(err){
+            if(err.message != "Codigo de barra não encontrado")
+                Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }    
+        setIsLoading(false);
+    }
+
     if (isLoading) {
         return (
           <View style={styles.screen}>
@@ -140,7 +157,7 @@ const RegisterScreen = props => {
                             <TextInput
                                 style={styles.input}
                                 value={barcode}
-                                onChangeText={text => setBarcode(text)}
+                                onChangeText={text => checkBarcode(text)}
                                 placeholder='Código de barra'
                                 keyboardType='number-pad'
                             />
