@@ -6,6 +6,13 @@ import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/UI/HeaderButton';
 import * as actions from '../store/actions'
+import Autocomplete from '../components/UI/AutoComplete'
+import Model from '../models/Model'
+
+import { YellowBox } from 'react-native'
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+])
 
 const Chemical = props => {
     return <View style={styles.items} >
@@ -25,11 +32,13 @@ const RegisterScreen = props => {
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState('');
     const [food, setFood] = useState('');
+    const [brands, setBrands] = useState([]);
+    const [foods, setFoods] = useState([]);
     const [showModal, setModal] = useState(false);
 
     const chemicals = useSelector(state => state.all_chemicals);
-    const brands = useSelector(state => state.all_brands);
-    const foods = useSelector(state => state.foods);
+    const allBrands = useSelector(state => state.all_brands);
+    const allFoods = useSelector(state => state.foods);
 
     const dispatch = useDispatch();
     
@@ -46,7 +55,7 @@ const RegisterScreen = props => {
 
     const loadBrands = useCallback(async () => {
         try{
-            if(brands.length > 0)
+            if(allBrands.length > 0)
                 return;
             await dispatch(actions.fetchBrands());
             console.log("brands LOADED !")
@@ -104,6 +113,19 @@ const RegisterScreen = props => {
         setIsLoading(false);
     }
 
+    const selectFood= (value) => {
+        setFood(new Model(-1, value))
+        if(value!="")
+            setFoods(allFoods.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
+        else
+            setFoods([])    
+    }
+
+    const clickFood = async (value) => {
+        setFood(value)
+        setFoods([])    
+    }
+
     if (isLoading) {
         return (
           <View style={styles.screen}>
@@ -132,7 +154,7 @@ const RegisterScreen = props => {
                                 <View style={styles.textContainer}>
                                     <TextInput
                                         style={styles.input}
-                                        value={food}
+                                        value={food.name}
                                         onChangeText={text => setFood(text)}
                                     />
                                     <TouchableOpacity onPress={() => add(setModal)}>
@@ -172,11 +194,12 @@ const RegisterScreen = props => {
                     </View>
                     <View style={styles.formControl}>
                         <View style={styles.textContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={food}
-                                onChangeText={text => setFood(text)}
+                            <Autocomplete
+                                data={foods}
+                                value={food.name}
                                 placeholder='Escolha o alimento'
+                                onChangeText={text => selectFood(text)}
+                                onPress={item => clickFood(item)} 
                             />
                             <TouchableOpacity onPress={() => setModal(true)}>
                                 <Ionicons
