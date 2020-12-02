@@ -27,15 +27,19 @@ const Chemical = props => {
 }
 
 const RegisterScreen = props => {
+    const startObject = new Model(-1, "")
+    
+    const [showModal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [chemicalsCheck, setChemicallCheck] = useState(false);
+    
     const [barcode, setBarcode] = useState('');
-    const [brand, setBrand] = useState('');
-    const [food, setFood] = useState('');
+    const [brand, setBrand] = useState(startObject);
+    const [food, setFood] = useState(startObject);
+    
     const [brands, setBrands] = useState([]);
     const [foods, setFoods] = useState([]);
-    const [showModal, setModal] = useState(false);
-
+    
     const chemicals = useSelector(state => state.all_chemicals);
     const allBrands = useSelector(state => state.all_brands);
     const allFoods = useSelector(state => state.foods);
@@ -107,8 +111,10 @@ const RegisterScreen = props => {
             Alert.alert('Mensagem', 'Código de barras já cadastrado', [{ text: 'Fechar' }]);
             setBarcode('')
         }catch(err){
-            if(err.message != "Codigo de barra não encontrado")
+            if(err.message != "Codigo de barra não encontrado"){
                 Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+                setBarcode('')
+            }    
         }    
         setIsLoading(false);
     }
@@ -124,6 +130,37 @@ const RegisterScreen = props => {
     const clickFood = async (value) => {
         setFood(value)
         setFoods([])    
+        await checkDuplicate(value.id, -1);
+    }
+
+    const selectBrand= (value) => {
+        setBrand(new Model(-1, value))
+        if(value!="")
+            setBrands(allBrands.filter(brand => brand.name.toLowerCase().indexOf(value.toLowerCase())>-1))
+        else
+            setBrands([])    
+    }
+
+    const clickBrand = async (value) => {
+        setBrand(value)
+        setBrands([]) 
+        await checkDuplicate(-1, value.id);
+    }
+
+    const checkDuplicate = async(foodId, brandId) => { 
+        foodId = foodId > -1 ? foodId : food.id
+        brandId = brandId > -1 ? brandId : brand.id
+        if (foodId > -1 && brandId > -1) {
+            try{
+                await dispatch(actions.getChemcals(foodId, brandId));   
+                setFood(new Model(-1, ""))
+                setBrand(new Model(-1, ""))
+                Alert.alert('Mensagem', 'Alimento e marca já cadastrado', [{ text: 'Fechar' }]);
+            }catch(err){
+                if(err.message != "Marca e produto não cadastrado")
+                    console.log(err)
+            }    
+       }
     }
 
     if (isLoading) {
@@ -212,11 +249,12 @@ const RegisterScreen = props => {
 
                     <View style={styles.formControl}>
                         <View style={styles.textContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={brand}
-                                onChangeText={text => setBrand(text)}
-                                placeholder='Escolha a Marca'
+                            <Autocomplete
+                                data={brands}
+                                value={brand.name}
+                                placeholder='Escolha o marca'
+                                onChangeText={text => selectBrand(text)}
+                                onPress={item => clickBrand(item)}
                             />
                             <TouchableOpacity onPress={() => setModal(true)}>
                                 <Ionicons
