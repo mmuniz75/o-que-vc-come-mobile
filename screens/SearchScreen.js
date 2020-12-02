@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator,Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -21,6 +21,7 @@ YellowBox.ignoreWarnings([
 
 const SearchScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
     let chemicalsRoot = useSelector(state => state.chemicals);
@@ -30,14 +31,14 @@ const SearchScreen = props => {
   
     const loadFoods = useCallback(async () => {
       await dispatch(actions.fetchFoods());
-    }, [dispatch, setIsLoading ]);
+    }, []);
 
     useEffect(() => {
         setIsLoading(true);
         loadFoods().then(() => {
           setIsLoading(false);
         });
-      }, [dispatch, loadFoods]);
+      }, [dispatch]);
 
     useEffect(() => {
         setBarcode(chemicalsRoot.bar_code)
@@ -61,6 +62,12 @@ const SearchScreen = props => {
             clickFood(food, false)
     }, [ barCodeSet]);
 
+    useEffect(() => {
+        if (error) {
+          Alert.alert('Mensagem', error, [{ text: 'Fechar' }]);
+        }
+      }, [error]);
+
     const startObject = new Model(-1, "")
     const [barcode, setBarcode] = useState('');
     const [food, setFood] = useState(startObject);
@@ -76,7 +83,11 @@ const SearchScreen = props => {
             return
         
         setIsLoading(true);
-        await dispatch(actions.getFromBarcode(value))    
+        try{
+            await dispatch(actions.getFromBarcode(value))    
+        }catch(err){
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }    
         setIsLoading(false);
     }
     

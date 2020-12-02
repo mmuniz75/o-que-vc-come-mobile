@@ -7,72 +7,54 @@ export const GET_FROM_BARCODE = 'GET_FROM_BARCODE';
 
 export const fetchFoods = () => {
   return async dispatch => {
-    try {
-      const response = await fetch(`${ENV().server}/foods`);
+    const response = await fetch(`${ENV().server}/foods`);
+    const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
 
-      if (!response.ok) {
-        throw new Error('Something went wrong!');
-      }
+    dispatch({ type: SET_FOODS, foods: resData });
 
-      const resData = await response.json();
-
-      dispatch({ type: SET_FOODS, foods: resData });
-    } catch (err) {
-      console.log(err); 
-    }
   };
 };
 
 export const getBrands = (foodId) => {
     return async dispatch => {
-      try {
-        const response = await fetch(`${ENV().server}/foods/${foodId}/brands`);
-  
-        if (!response.ok) {
-          throw new Error('Something went wrong!');
-        }
-  
-        const resData = await response.json();
-  
-        dispatch({ type: SET_BRANDS, brands: resData });
-      } catch (err) {
-        console.log(err); 
-      }
+      const response = await fetch(`${ENV().server}/foods/${foodId}/brands`);
+      const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
+
+      dispatch({ type: SET_BRANDS, brands: resData });
+
     };
   };
 
   export const getChemcals = (foodId, brandId) => {
     return async dispatch => {
-      try {
-        const response = await fetch(`${ENV().server}/brands/${brandId}/foods/${foodId}/chemicals`);
-  
-        if (!response.ok) {
-          throw new Error('Something went wrong!');
-        }
-  
-        const resData = await response.json();
-  
-        dispatch({ type: SET_CHEMICALS, chemicals: resData });
-      } catch (err) {
-        console.log(err); 
-      }
+      const response = await fetch(`${ENV().server}/brands/${brandId}/foods/${foodId}/chemicals`);
+      const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
+
+      dispatch({ type: SET_CHEMICALS, chemicals: resData });
     };
   };
   
   export const getFromBarcode = (barcode) => {
     return async dispatch => {
-      try {
-        const response = await fetch(`${ENV().server}/brands/foods/${barcode}`);
-        const resData = await response.json();
-                
-        if (!response.ok) {
-          const message = resData && resData.message ? resData.message : "Something went wrong!"
-          throw new Error(message);
-        }
-  
-        dispatch({ type: GET_FROM_BARCODE, barcode: resData });
-      } catch (err) {
-        console.log(err); 
-      }
+      const response = await fetch(`${ENV().server}/brands/foods/${barcode}`);
+      const resData = await response.json();
+      if (!response.ok) 
+         throwError(resData, response.status)
+            
+      dispatch({ type: GET_FROM_BARCODE, barcode: resData });
     };
   };
+
+  const throwError = (data, status) => {
+    if(status != 404 && status != 409 && status != 412)
+      console.log(data)
+    
+    const message = data && data.message ? data.message : "Erro interno"
+    throw new Error(message);
+  }
