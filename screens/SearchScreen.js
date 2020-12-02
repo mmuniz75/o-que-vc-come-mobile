@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     green: {
         marginVertical: 20,
         fontFamily: 'open-sans-bold',
-        fontSize: 14,
+        fontSize: 16,
         textAlign: 'center',
         color : Colors.greenColor
     },
