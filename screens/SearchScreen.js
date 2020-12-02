@@ -195,9 +195,10 @@ const SearchScreen = props => {
                                         ):null}
                     
 
-                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && <Text style={styles.text}>Pressione no produto quimico para saber mais sobre ele.</Text>}
+                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] == 'Nenhum' && <Text style={styles.green}>Nenhum produto quimico encontrado nesse produto.</Text>}
+                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum' && <Text style={styles.text}>Pressione no produto quimico para saber mais sobre ele.</Text>}
                 {
-                    food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals
+                    food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum'
                     ? chemicalsRoot.chemicals.map(chemical => <Chemical key={chemical} name={chemical} />) 
                     : null
                 }
@@ -229,6 +230,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         color : Colors.primaryColor
+    },
+    green: {
+        marginVertical: 20,
+        fontFamily: 'open-sans-bold',
+        fontSize: 14,
+        textAlign: 'center',
+        color : Colors.greenColor
     },
     textContainer: {
         flexDirection: 'row'

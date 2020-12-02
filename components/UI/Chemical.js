@@ -5,6 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const Chemical = props => {
 
     const openLink = name => {
+        if(name== 'Nenhum')
+            return
         const google = `https://www.google.com/search?q=${name}`
         Linking.openURL(google)
         .catch((err) => 
