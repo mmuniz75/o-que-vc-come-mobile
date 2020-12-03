@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, TextInput, Platform, Dimensions, Modal, Alert,KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Platform, Modal, Alert,KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/UI/HeaderButton';
 import * as actions from '../store/actions'
 import Autocomplete from '../components/UI/AutoComplete'
+import Chemical from '../components/UI/ChemicalSwitch'
 import Model from '../models/Model'
 
 import { YellowBox } from 'react-native'
@@ -14,24 +15,12 @@ YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
 
-const Chemical = props => {
-    return <View style={styles.items} >
-        <Text style={styles.item}>{props.name}</Text>
-        <Switch
-            style={styles.switch}
-            value={props.checked}
-            thumbColor={Platform.OS === 'android' ? Colors.primaryColor : ''}
-            trackColor={{ true: Colors.primaryColor }}
-            onValueChange={newValue => props.onChange(newValue)} />
-    </View>
-}
-
 const RegisterScreen = props => {
     const startObject = new Model(-1, "")
     
     const [showModal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [chemicalsCheck, setChemicallCheck] = useState(false);
+    const [chemicalsCheck, setChemicallsCheck] = useState([]);
     
     const [barcode, setBarcode] = useState('');
     const [brand, setBrand] = useState(startObject);
@@ -92,12 +81,18 @@ const RegisterScreen = props => {
     const add = (setModal) => {
         setModal(false);
     }
-    
-    
-    const setCheck = (index, value, chemicalsCheck, setChemicallCheck) => {
-        const updatedChecks = [...chemicalsCheck];
-        updatedChecks[index] = value;
-        setChemicallCheck(updatedChecks);
+        
+    const setCheck = (id, checked) => {
+        let updatedChecks = [...chemicalsCheck];
+        const chemical = chemicals.find(c => c.id ==id)
+        if(checked)
+            updatedChecks.push(chemical)
+        else
+            updatedChecks = updatedChecks.filter(c => c.id !=id)
+
+        console.log(updatedChecks)    
+        
+        setChemicallsCheck(updatedChecks);
     }
 
     const checkBarcode = async (value) => {
@@ -279,7 +274,14 @@ const RegisterScreen = props => {
                         </View>
                     </View>
                     {
-                        chemicals ? chemicals.map(chemical => <Chemical name={chemical.name} key={chemical.id} />):null
+                        chemicals ? chemicals.map(chemical => {
+
+                            return <Chemical name={chemical.name} 
+                                             key={chemical.id} 
+                                             checked={chemicalsCheck.some(c => c.id==chemical.id)}
+                                             onChange={ newValue => setCheck(chemical.id, newValue)}/>
+                        }    
+                        ):null
                     }
                 </View>
 
@@ -332,20 +334,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
-    item: {
-        fontFamily: 'open-sans',
-        fontSize: 16,
-        marginHorizontal: 15
-    },
-    items: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-        marginVertical: 15,
-        marginRight: 20,
-        justifyContent: "space-between",
-        width: '100%',
-    },
     list: {
         width: '95%',
         shadowColor: 'black',
@@ -397,9 +385,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'open-sans',
         marginRight: 10
-    },
-    switch: {
-        marginEnd: Dimensions.get('window').width > 320 ? '10%' : 0
     },
     closeIcon: {
         alignItems: 'flex-end'
