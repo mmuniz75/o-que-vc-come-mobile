@@ -15,6 +15,34 @@ YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
 
+const save = async () => {
+    try{
+        setIsLoading(true);
+        const selectedChemicals = chemicalsCheck.map(c => c.id)
+        await dispatch(actions.createBrandFood(brand.id, food.id, barcode, selectedChemicals));
+        setIsLoading(false);
+
+        Alert.alert('Confirmação', 'Cadastrado realizado', [
+            {
+                text: 'OK',
+                style: 'default',
+                onPress: () => {
+                    navigation.navigate('Main');
+                }
+            }
+        ]);
+
+    }catch(err){
+        setIsLoading(false);
+        Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+    }  
+};
+
+const add = (setModal) => {
+    setModal(false);
+}
+
+
 const RegisterScreen = props => {
     const startObject = new Model(-1, "")
     
@@ -66,21 +94,7 @@ const RegisterScreen = props => {
         });
       }, [dispatch]);
 
-    const save = (navigation) => {
-        Alert.alert('Confirmação', 'Cadastrado realizado', [
-            {
-                text: 'OK',
-                style: 'default',
-                onPress: () => {
-                    navigation.navigate('Main');
-                }
-            }
-        ]);
-    }
-    
-    const add = (setModal) => {
-        setModal(false);
-    }
+   
         
     const setCheck = (id, checked) => {
         let updatedChecks = [...chemicalsCheck];
@@ -89,8 +103,6 @@ const RegisterScreen = props => {
             updatedChecks.push(chemical)
         else
             updatedChecks = updatedChecks.filter(c => c.id !=id)
-
-        console.log(updatedChecks)    
         
         setChemicallsCheck(updatedChecks);
     }
@@ -157,6 +169,8 @@ const RegisterScreen = props => {
             }    
        }
     }
+
+    
 
     if (isLoading) {
         return (
