@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator,Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator,Alert, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -161,6 +161,11 @@ const SearchScreen = props => {
 
 
     return (
+      <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior="padding"
+            keyboardVerticalOffset={100}
+      >
         <ScrollView >
             <View style={styles.screen}>
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
@@ -191,7 +196,7 @@ const SearchScreen = props => {
                             onPress={item => clickFood(item, true)}
                         />
                     </View>                    
-                    {food.name !="" && (
+                    {food.id > 0 && (
                         <View style={styles.formControl}>
                             <Autocomplete
                                 data={brands}
@@ -219,6 +224,7 @@ const SearchScreen = props => {
                 </View>
             </View>
         </ScrollView>
+    </KeyboardAvoidingView>        
     )
 }
 
