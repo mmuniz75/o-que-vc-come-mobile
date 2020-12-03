@@ -322,48 +322,51 @@ const RegisterScreen = props => {
                         </View>
                     </View>
 
-                    <View style={styles.formControl}>
-                        <View style={styles.textContainer}>
-                            <Autocomplete
-                                data={brands}
-                                value={brand.name}
-                                placeholder='Escolha o marca'
-                                onChangeText={text => selectBrand(text)}
-                                onPress={item => clickBrand(item)}
-                            />
-                            <TouchableOpacity onPress={() => openModal('Marca')}>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-                                    size={32}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                </View>
-                <View style={styles.list}>
-                    <View style={styles.chemicalHeader} >
-                        <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
-                        <View style={styles.chemicalIcon} >
-                            <TouchableOpacity>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
-                                    size={32}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    {
-                        chemicals ? chemicals.map(chemical => {
-
-                            return <Chemical name={chemical.name} 
-                                             key={chemical.id} 
-                                             checked={chemicalsCheck.some(c => c.id==chemical.id)}
-                                             onChange={ newValue => setCheck(chemical.id, newValue)}/>
-                        }    
-                        ):null
+                    {food.id > 0 && <View style={styles.formControl}>
+                                        <View style={styles.textContainer}>
+                                            <Autocomplete
+                                                data={brands}
+                                                value={brand.name}
+                                                placeholder='Escolha o marca'
+                                                onChangeText={text => selectBrand(text)}
+                                                onPress={item => clickBrand(item)}
+                                            />
+                                            <TouchableOpacity onPress={() => openModal('Marca')}>
+                                                <Ionicons
+                                                    name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+                                                    size={32}
+                                                />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
                     }
+
                 </View>
+                
+                {brand.id > 0 &&  <View style={styles.list}>
+                                    <View style={styles.chemicalHeader} >
+                                        <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
+                                        <View style={styles.chemicalIcon} >
+                                            <TouchableOpacity>
+                                                <Ionicons
+                                                    name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
+                                                    size={32}
+                                                />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    {
+                                        chemicals ? chemicals.map(chemical => {
+
+                                            return <Chemical name={chemical.name} 
+                                                            key={chemical.id} 
+                                                            checked={chemicalsCheck.some(c => c.id==chemical.id)}
+                                                            onChange={ newValue => setCheck(chemical.id, newValue)}/>
+                                        }    
+                                        ):null
+                                    }
+                                </View>
+                }    
 
             </View>
         </ScrollView>

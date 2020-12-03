@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Autocomplete from 'react-native-autocomplete-input'
 
 const autComp = props => {
+
     return <Autocomplete
                     data={props.data}
                     keyExtractor={(item,index) => index.toString()}
@@ -25,6 +26,7 @@ const autComp = props => {
                         </TouchableOpacity>
                     )}
             />
+           
 }                    
 
 export default autComp;
@@ -33,18 +35,21 @@ const styles = StyleSheet.create({
     input: {
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
-        width: '90%',
+        width: '98%',
         fontSize : 20,
         fontFamily: 'open-sans',
     },
     autocompleteContainer: {
-        borderWidth: 0
+        borderWidth: 0,
+        width: '98%'
       },
     listStyle: {
-        zIndex: 1000
+        zIndex: 1000,
+        width: '98%'
     },
     containerStyle: {
         borderWidth: 0, 
-        zIndex: 1
+        zIndex: 1,
+        width: '98%'
     }
 });
