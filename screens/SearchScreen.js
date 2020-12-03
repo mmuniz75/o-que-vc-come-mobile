@@ -207,7 +207,7 @@ const SearchScreen = props => {
                             />
                         </View>
                     )}
-                    {food.name == "" || brand.name == "" ? (
+                    {food.name == "" && brand.name == "" ? (
                                         <View style={styles.button}>
                                             <Button title="Não achei meu alimento" onPress={() => props.navigation.navigate('Register')} />
                                         </View>
