@@ -231,6 +231,11 @@ const RegisterScreen = props => {
         return true    
     }
 
+    const openModal = (name) => {
+        setNewItemName('')
+        setModalName(name)
+    }
+
     useEffect(() => {
         props.navigation.setParams({ saveFn: save });
       }, [save]);
@@ -308,7 +313,7 @@ const RegisterScreen = props => {
                                 onChangeText={text => selectFood(text)}
                                 onPress={item => clickFood(item)} 
                             />
-                            <TouchableOpacity onPress={() => setModalName('Alimento')}>
+                            <TouchableOpacity onPress={() => openModal('Alimento')}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
@@ -326,7 +331,7 @@ const RegisterScreen = props => {
                                 onChangeText={text => selectBrand(text)}
                                 onPress={item => clickBrand(item)}
                             />
-                            <TouchableOpacity onPress={() => setModalName('Marca')}>
+                            <TouchableOpacity onPress={() => openModal('Marca')}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
