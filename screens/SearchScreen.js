@@ -161,11 +161,7 @@ const SearchScreen = props => {
 
 
     return (
-      <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior="padding"
-            keyboardVerticalOffset={100}
-      >
+      
         <ScrollView >
             <View style={styles.screen}>
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
@@ -224,7 +220,7 @@ const SearchScreen = props => {
                 </View>
             </View>
         </ScrollView>
-    </KeyboardAvoidingView>        
+    
     )
 }
 
