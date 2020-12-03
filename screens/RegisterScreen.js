@@ -16,15 +16,12 @@ YellowBox.ignoreWarnings([
 ])
 
 
-const add = (setModal) => {
-    setModal(false);
-}
-
-
 const RegisterScreen = props => {
     const startObject = new Model(-1, "")
     
-    const [showModal, setModal] = useState(false);
+    const [newItemName, setNewItemName] = useState('');
+
+    const [modalName, setModalName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [chemicalsCheck, setChemicallsCheck] = useState([]);
     
@@ -38,6 +35,9 @@ const RegisterScreen = props => {
     const chemicals = useSelector(state => state.all_chemicals);
     const allBrands = useSelector(state => state.all_brands);
     const allFoods = useSelector(state => state.foods);
+
+    const newFood  = useSelector(state => state.food);
+    const newBrand = useSelector(state => state.brand);
 
     const dispatch = useDispatch();
     
@@ -66,13 +66,20 @@ const RegisterScreen = props => {
     useEffect(() => {
         if(props.navigation.getParam("barcode"))
             setBarcode(props.navigation.getParam("barcode"))
+        
+        if(newFood)    
+            setFood(newFood)
+        
+        if(newBrand)    
+            setBrand(newBrand)
+
         setIsLoading(true);
         loadChemicals()
         .then(() => loadBrands())
         .then(() => {
             setIsLoading(false);
         });
-      }, [dispatch]);
+      }, [dispatch,newFood, newBrand]);
 
    
         
@@ -180,6 +187,29 @@ const RegisterScreen = props => {
         }  
     },[dispatch,brand.id, food.id, barcode, chemicalsCheck]);
 
+    const createNewItem = async() => {
+        if(newItemName == ''){
+            Alert.alert('Mensagem', `Digite um ${modalName}`, [{ text: 'Fechar' }]);
+            return
+        }
+
+        try{
+            setIsLoading(true);
+
+            if(modalName == 'Alimento')
+                await dispatch(actions.createFood(newItemName));
+
+            setIsLoading(false);
+            setModalName('')
+    
+        }catch(err){
+            setIsLoading(false);
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }  
+
+    }
+
+
     const validate = () => {
         const missingText = 'Dados faltando'
         if(food.id <1) {
@@ -215,27 +245,27 @@ const RegisterScreen = props => {
     return (
         <ScrollView>
             <Modal animationType='slide'
-                visible={showModal}
+                visible={modalName != ''}
                 transparent={true}>
                     <KeyboardAvoidingView style={styles.modalContainer} behavior='height'>
                         <View style={styles.modal}>
                             <View style={styles.formControl}>
                                 <View style={styles.closeIcon}>
-                                    <TouchableOpacity onPress={() => add(setModal)}>
+                                    <TouchableOpacity onPress={() => setModalName('')}>
                                         <Ionicons
                                             name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
                                             size={25}
                                         />
                                     </TouchableOpacity>
                                 </View>
-                                <Text style={styles.label} >Digite o nome do item</Text>
+                                <Text style={styles.label} >Digite o nome do {modalName}</Text>
                                 <View style={styles.textContainer}>
                                     <TextInput
                                         style={styles.input}
-                                        value={food.name}
-                                        onChangeText={text => setFood(text)}
+                                        value={newItemName}
+                                        onChangeText={text => setNewItemName(text)}
                                     />
-                                    <TouchableOpacity onPress={() => add(setModal)}>
+                                    <TouchableOpacity onPress={() => createNewItem()}>
                                         <Ionicons
                                             name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
                                             size={32}
@@ -243,7 +273,6 @@ const RegisterScreen = props => {
                                         />
                                     </TouchableOpacity>
                                 </View>
-
                             </View>
                         </View>
                     </KeyboardAvoidingView>
@@ -265,7 +294,6 @@ const RegisterScreen = props => {
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
                                     size={32}
-
                                 />
                             </TouchableOpacity>
                         </View>
@@ -279,7 +307,7 @@ const RegisterScreen = props => {
                                 onChangeText={text => selectFood(text)}
                                 onPress={item => clickFood(item)} 
                             />
-                            <TouchableOpacity onPress={() => setModal(true)}>
+                            <TouchableOpacity onPress={() => setModalName('Alimento')}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}
@@ -297,7 +325,7 @@ const RegisterScreen = props => {
                                 onChangeText={text => selectBrand(text)}
                                 onPress={item => clickBrand(item)}
                             />
-                            <TouchableOpacity onPress={() => setModal(true)}>
+                            <TouchableOpacity onPress={() => setModalName('Marca')}>
                                 <Ionicons
                                     name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
                                     size={32}

@@ -7,6 +7,7 @@ export const SET_ALL_CHEMICALS = 'SET_ALL_CHEMICALS';
 export const SET_ALL_BRANDS = 'SET_ALL_BRANDS';
 export const GET_FROM_BARCODE = 'GET_FROM_BARCODE';
 export const ADD_FOOD_BRAND = 'ADD_FOOD_BRAND';
+export const ADD_FOOD = 'ADD_FOOD';
 
 export const fetchFoods = () => {
   return async dispatch => {
@@ -98,6 +99,28 @@ export const getBrands = (foodId) => {
         throwError(resData, response.status)
 
       dispatch({ type: ADD_FOOD_BRAND });
+    };
+  };
+
+  export const createFood = (name) => {
+    return async dispatch => {
+      const response = await fetch(`${ENV().server}/foods`,
+                                    {
+                                      method: 'POST',
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify({
+                                        name
+                                       }
+                                      )
+                                      }
+                                  )      
+      const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
+
+      dispatch({ type: ADD_FOOD, food: resData });
     };
   };
   
