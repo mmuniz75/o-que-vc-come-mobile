@@ -150,8 +150,15 @@ const RegisterScreen = props => {
 
     const save = useCallback( async () => {
         try{
+            if (!validate())
+                return
+
             setIsLoading(true);
-            const selectedChemicals = chemicalsCheck.map(c => c.id)
+            let selectedChemicals = chemicalsCheck.map(c => c.id)
+
+            if(selectedChemicals.length==0)
+                selectedChemicals.push("0")
+
             await dispatch(actions.createBrandFood(brand.id, food.id, barcode, selectedChemicals));
             setIsLoading(false);
     
@@ -170,6 +177,26 @@ const RegisterScreen = props => {
             Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
         }  
     },[dispatch,brand.id, food.id, barcode, chemicalsCheck]);
+
+    const validate = () => {
+        const missingText = 'Dados faltando'
+        if(food.id <1) {
+            Alert.alert(missingText, 'Escolha uma alimento', [{ text: 'Fechar' }]);
+            return false
+        }
+
+        if(brand.id <1) {
+            Alert.alert(missingText, 'Escolha uma marca', [{ text: 'Fechar' }]);            
+            return false
+        }    
+
+        if(barcode.length <13) {
+            Alert.alert(missingText, 'Digite o codigo de barra', [{ text: 'Fechar' }]);            
+            return false
+        }   
+        
+        return true    
+    }
 
     useEffect(() => {
         props.navigation.setParams({ saveFn: save });
