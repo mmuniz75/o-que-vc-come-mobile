@@ -78,7 +78,7 @@ export const getBrands = (foodId) => {
     };
   };
 
-  export const createBrandFood = (foodId, brandId, barcode, chemicals) => {
+  export const createBrandFood = (brandId, foodId, barcode, chemicals) => {
     return async dispatch => {
       const response = await fetch(`${ENV().server}/brands/${brandId}/foods/${foodId}`,
                                     {
