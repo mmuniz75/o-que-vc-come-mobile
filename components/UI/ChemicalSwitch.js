@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
     item: {
         fontFamily: 'open-sans',
         fontSize: 16,
-        marginHorizontal: 15
+        marginEnd : -10,
+        marginLeft : 10,
+        width : '80%'
     },
     items: {
         flexDirection: 'row',
@@ -30,8 +32,8 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     switch: {
-        marginEnd: Dimensions.get('window').width > 320 ? '10%' : 0
+        marginEnd: Dimensions.get('window').width > 320 ? '20%' : '10%'
     }
 });
 
-export default Chemical;
+export default Chemical
