@@ -15,28 +15,6 @@ YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
 
-const save = async () => {
-    try{
-        setIsLoading(true);
-        const selectedChemicals = chemicalsCheck.map(c => c.id)
-        await dispatch(actions.createBrandFood(brand.id, food.id, barcode, selectedChemicals));
-        setIsLoading(false);
-
-        Alert.alert('Confirmação', 'Cadastrado realizado', [
-            {
-                text: 'OK',
-                style: 'default',
-                onPress: () => {
-                    navigation.navigate('Main');
-                }
-            }
-        ]);
-
-    }catch(err){
-        setIsLoading(false);
-        Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
-    }  
-};
 
 const add = (setModal) => {
     setModal(false);
@@ -170,7 +148,32 @@ const RegisterScreen = props => {
        }
     }
 
+    const save = useCallback( async () => {
+        try{
+            setIsLoading(true);
+            const selectedChemicals = chemicalsCheck.map(c => c.id)
+            await dispatch(actions.createBrandFood(brand.id, food.id, barcode, selectedChemicals));
+            setIsLoading(false);
     
+            Alert.alert('Confirmação', 'Cadastrado realizado', [
+                {
+                    text: 'OK',
+                    style: 'default',
+                    onPress: () => {
+                        props.navigation.navigate('Main');
+                    }
+                }
+            ]);
+    
+        }catch(err){
+            setIsLoading(false);
+            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+        }  
+    },[dispatch,brand.id, food.id, barcode, chemicalsCheck]);
+
+    useEffect(() => {
+        props.navigation.setParams({ saveFn: save });
+      }, [save]);
 
     if (isLoading) {
         return (
@@ -305,6 +308,7 @@ const RegisterScreen = props => {
 }
 
 RegisterScreen.navigationOptions = navData => {
+    const saveFn = navData.navigation.getParam('saveFn');
     return {
         headerRight: () =>
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -313,7 +317,7 @@ RegisterScreen.navigationOptions = navData => {
                     iconName={
                         Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
                     }
-                    onPress={() => save(navData.navigation)}
+                    onPress={saveFn}
                 />
             </HeaderButtons>
 
