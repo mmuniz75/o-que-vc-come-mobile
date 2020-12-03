@@ -64,6 +64,8 @@ const RegisterScreen = props => {
     }, []);
 
     useEffect(() => {
+        if(props.navigation.getParam("barcode"))
+            setBarcode(props.navigation.getParam("barcode"))
         setIsLoading(true);
         loadChemicals()
         .then(() => loadBrands())

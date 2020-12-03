@@ -84,7 +84,21 @@ const SearchScreen = props => {
         try{
             await dispatch(actions.getFromBarcode(value))    
         }catch(err){
-            Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+            if(err.message != "Codigo de barra não encontrado")
+                Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
+            else{
+                Alert.alert('Mensagem', err.message, [
+                    { text: 'Fechar' },
+                    {
+                        text: 'Quero cadastrar',
+                        style: 'default',
+                        onPress: () => {
+                            props.navigation.setParams({ barcode: value });
+                            props.navigation.navigate('Register',{ barcode: value }) ;
+                        }    
+                    }
+                ]);
+            }    
         }    
         setIsLoading(false);
     }
