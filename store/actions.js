@@ -8,6 +8,7 @@ export const SET_ALL_BRANDS = 'SET_ALL_BRANDS';
 export const GET_FROM_BARCODE = 'GET_FROM_BARCODE';
 export const ADD_FOOD_BRAND = 'ADD_FOOD_BRAND';
 export const ADD_FOOD = 'ADD_FOOD';
+export const ADD_BRAND = 'ADD_BRAND';
 
 export const fetchFoods = () => {
   return async dispatch => {
@@ -81,18 +82,11 @@ export const getBrands = (foodId) => {
 
   export const createBrandFood = (brandId, foodId, barcode, chemicals) => {
     return async dispatch => {
-      const response = await fetch(`${ENV().server}/brands/${brandId}/foods/${foodId}`,
-                                    {
-                                      method: 'POST',
-                                      headers: {
-                                        'Content-Type': 'application/json'
-                                      },
-                                      body: JSON.stringify({
-                                        chemicals,
-                                        "bar-code" : barcode
-                                       }
-                                      )
-                                      }
+      const response = await fetch(`${ENV().server}/brands/${brandId}/foods/${foodId}`, {
+                                                                                          method: 'POST',
+                                                                                          headers: {'Content-Type': 'application/json'},
+                                                                                          body: JSON.stringify({chemicals,"bar-code" : barcode})
+                                                                                        }
                                   )      
       const resData = await response.json();
       if (!response.ok) 
@@ -104,17 +98,11 @@ export const getBrands = (foodId) => {
 
   export const createFood = (name) => {
     return async dispatch => {
-      const response = await fetch(`${ENV().server}/foods`,
-                                    {
-                                      method: 'POST',
-                                      headers: {
-                                        'Content-Type': 'application/json'
-                                      },
-                                      body: JSON.stringify({
-                                        name
-                                       }
-                                      )
-                                      }
+      const response = await fetch(`${ENV().server}/foods`, {
+                                                              method: 'POST',
+                                                              headers: { 'Content-Type': 'application/json'},
+                                                              body: JSON.stringify({name})
+                                                            }
                                   )      
       const resData = await response.json();
       if (!response.ok) 
@@ -124,6 +112,21 @@ export const getBrands = (foodId) => {
     };
   };
   
+  export const createBrand = (name) => {
+    return async dispatch => {
+      const response = await fetch(`${ENV().server}/brands`, {
+                                                              method: 'POST',
+                                                              headers: { 'Content-Type': 'application/json'},
+                                                              body: JSON.stringify({name})
+                                                            }
+                                  )      
+      const resData = await response.json();
+      if (!response.ok) 
+        throwError(resData, response.status)
+
+      dispatch({ type: ADD_BRAND, brand: resData });
+    };
+  };
 
   const throwError = (data, status) => {
     if(status != 404 && status != 409 && status != 412)

@@ -1,4 +1,4 @@
-import { SET_FOODS, SET_BRANDS, SET_CHEMICALS, GET_FROM_BARCODE, SET_ALL_CHEMICALS, SET_ALL_BRANDS, ADD_FOOD, ADD_FOOD_BRAND } from './actions';
+import { SET_FOODS, SET_BRANDS, SET_CHEMICALS, GET_FROM_BARCODE, SET_ALL_CHEMICALS, SET_ALL_BRANDS, ADD_FOOD, ADD_FOOD_BRAND, ADD_BRAND } from './actions';
 
 const initialState = {
   foods: [],
@@ -25,6 +25,15 @@ export default (state = initialState, action) => {
         foods,  
         food
       };
+    case ADD_BRAND:
+        const brands = [...state.brands]
+        const brand = action.brand
+        brands.push(brand)
+        return {
+          ...state,
+          brands,  
+          brand
+        };
     case ADD_FOOD_BRAND:
       return {
         ...state,

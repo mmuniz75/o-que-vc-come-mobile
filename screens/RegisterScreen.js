@@ -192,23 +192,24 @@ const RegisterScreen = props => {
             Alert.alert('Mensagem', `Digite um ${modalName}`, [{ text: 'Fechar' }]);
             return
         }
-
         try{
             setIsLoading(true);
 
             if(modalName == 'Alimento')
                 await dispatch(actions.createFood(newItemName));
 
+            if(modalName == 'Marca')
+                await dispatch(actions.createBrand(newItemName));
+
             setIsLoading(false);
             setModalName('')
+            setNewItemName('')
     
         }catch(err){
             setIsLoading(false);
             Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
         }  
-
     }
-
 
     const validate = () => {
         const missingText = 'Dados faltando'
