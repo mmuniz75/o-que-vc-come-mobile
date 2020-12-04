@@ -105,6 +105,7 @@ const SearchScreen = props => {
     }
     
     const selectFood= (value) => {
+        scrollBotton()
         setBarcode("")
         setFood(new Model(-1, value))
         setBrand(new Model(-1, value))
@@ -132,12 +133,21 @@ const SearchScreen = props => {
     }
 
     const selectBrand= (value) => {
+        scrollBotton()
         setBarcode("")
         setBrand(new Model(-1, value))
         if(value!="")
             setBrands(brandsData.filter(brand => brand.name.toLowerCase().indexOf(value.toLowerCase())>-1))
         else
             setBrands([])    
+    }
+
+    const scrollBotton = () => {
+        scrollRef.current.scrollTo({
+            y: (100),
+            animated: true,
+        })
+        
     }
 
     const clickBrand = async (value) => {

@@ -116,6 +116,7 @@ const RegisterScreen = props => {
     }
 
     const selectFood= (value) => {
+        scrollBotton()
         setFood(new Model(-1, value))
         if(value!="")
             setFoods(allFoods.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
@@ -356,7 +357,7 @@ const RegisterScreen = props => {
 
                 </View>
                 
-                {brand.id > 0 &&  <View style={styles.list}>
+                {food.id > 0 && brand.id > 0 &&  <View style={styles.list}>
                                     <View style={styles.chemicalHeader} >
                                         <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
                                         <View style={styles.chemicalIcon} >
