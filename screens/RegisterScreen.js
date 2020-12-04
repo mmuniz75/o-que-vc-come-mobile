@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback,useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Platform, Modal, Alert,KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,6 +41,16 @@ const RegisterScreen = props => {
 
     const dispatch = useDispatch();
     
+
+    const scrollRef = useRef();
+  
+    const scrollBotton = () => {
+        scrollRef.current.scrollTo({
+            y: (100),
+            animated: true,
+        })
+        
+    }
     const loadChemicals = useCallback(async () => {
         try{
             if(chemicals.length > 0)
@@ -128,6 +138,7 @@ const RegisterScreen = props => {
     }
 
     const selectBrand= (value) => {
+        scrollBotton()
         setBrand(new Model(-1, value))
         if(value!="")
             setBrands(allBrands.filter(brand => brand.name.toLowerCase().indexOf(value.toLowerCase())>-1))
@@ -249,7 +260,7 @@ const RegisterScreen = props => {
       }
 
     return (
-        <ScrollView>
+        <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
             <Modal animationType='slide'
                 visible={modalName != ''}
                 transparent={true}>
@@ -312,6 +323,7 @@ const RegisterScreen = props => {
                                 placeholder='Escolha o alimento'
                                 onChangeText={text => selectFood(text)}
                                 onPress={item => clickFood(item)} 
+                                onFocus={() => scrollBotton()}
                             />
                             <TouchableOpacity onPress={() => openModal('Alimento')}>
                                 <Ionicons
@@ -330,6 +342,7 @@ const RegisterScreen = props => {
                                                 placeholder='Escolha o marca'
                                                 onChangeText={text => selectBrand(text)}
                                                 onPress={item => clickBrand(item)}
+                                                onFocus={() => scrollBotton()}
                                             />
                                             <TouchableOpacity onPress={() => openModal('Marca')}>
                                                 <Ionicons

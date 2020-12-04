@@ -18,10 +18,11 @@ const autComp = props => {
                                 style={styles.input}
                                 placeholder={props.placeholder}
                                 onChangeText={text => props.onChangeText(text)}
+                                onFocus={() => props.onFocus()}
                             />    
                     )}
                     renderItem={({ item, i }) => (
-                        <TouchableOpacity onPress={() => props.onPress(item)}>
+                        <TouchableOpacity onPress={() => props.onPress(item)}> 
                             <Text style={styles.input}> {item.name}</Text>
                         </TouchableOpacity>
                     )}

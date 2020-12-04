@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef  } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator,Alert, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -20,6 +20,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const SearchScreen = props => {
+    const [isEmpty, setIsEmpty] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const foodsData = useSelector(state => state.foods);
     let brandsData = useSelector(state => state.brands);
@@ -151,6 +152,16 @@ const SearchScreen = props => {
         setIsLoading(false);
     }
 
+    const scrollRef = useRef();
+  
+    const scrollBotton = () => {
+        scrollRef.current.scrollTo({
+            y: (100),
+            animated: true,
+        })
+        
+    }
+
     if (isLoading) {
         return (
           <View style={styles.screen}>
@@ -159,10 +170,9 @@ const SearchScreen = props => {
         );
       }
 
-
     return (
       
-        <ScrollView >
+        <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
             <View style={styles.screen}>
                 <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
                 <View style={styles.form}>
@@ -190,6 +200,7 @@ const SearchScreen = props => {
                             placeholder='Escolha o alimento'
                             onChangeText={text => selectFood(text)}
                             onPress={item => clickFood(item, true)}
+                            onFocus={() => scrollBotton()}
                         />
                     </View>                    
                     {food.id > 0 && (
@@ -200,6 +211,7 @@ const SearchScreen = props => {
                                 placeholder='Escolha o marca'
                                 onChangeText={text => selectBrand(text)}
                                 onPress={item => clickBrand(item)}
+                                onFocus={() => scrollBotton()}
                             />
                         </View>
                     )}
