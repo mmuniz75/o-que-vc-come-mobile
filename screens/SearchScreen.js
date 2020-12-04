@@ -154,14 +154,6 @@ const SearchScreen = props => {
 
     const scrollRef = useRef();
   
-    const scrollBotton = () => {
-        scrollRef.current.scrollTo({
-            y: (100),
-            animated: true,
-        })
-        
-    }
-
     if (isLoading) {
         return (
           <View style={styles.screen}>
@@ -200,7 +192,7 @@ const SearchScreen = props => {
                             placeholder='Escolha o alimento'
                             onChangeText={text => selectFood(text)}
                             onPress={item => clickFood(item, true)}
-                            onFocus={() => scrollBotton()}
+                            scrollRef={scrollRef}
                         />
                     </View>                    
                     {food.id > 0 && (
@@ -211,7 +203,7 @@ const SearchScreen = props => {
                                 placeholder='Escolha o marca'
                                 onChangeText={text => selectBrand(text)}
                                 onPress={item => clickBrand(item)}
-                                onFocus={() => scrollBotton()}
+                                scrollRef={scrollRef}
                             />
                         </View>
                     )}

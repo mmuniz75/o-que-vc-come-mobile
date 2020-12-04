@@ -6,6 +6,14 @@ import Autocomplete from 'react-native-autocomplete-input'
 
 const autComp = props => {
 
+    const scrollBotton = (scrollRef) => {
+        scrollRef.current.scrollTo({
+            y: (100),
+            animated: true,
+        })
+        
+    }
+
     return <Autocomplete
                     data={props.data}
                     keyExtractor={(item,index) => index.toString()}
@@ -18,7 +26,7 @@ const autComp = props => {
                                 style={styles.input}
                                 placeholder={props.placeholder}
                                 onChangeText={text => props.onChangeText(text)}
-                                onFocus={() => props.onFocus()}
+                                onFocus={() => scrollBotton(props.scrollRef)}
                             />    
                     )}
                     renderItem={({ item, i }) => (

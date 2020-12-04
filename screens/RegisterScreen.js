@@ -41,16 +41,8 @@ const RegisterScreen = props => {
 
     const dispatch = useDispatch();
     
-
     const scrollRef = useRef();
   
-    const scrollBotton = () => {
-        scrollRef.current.scrollTo({
-            y: (100),
-            animated: true,
-        })
-        
-    }
     const loadChemicals = useCallback(async () => {
         try{
             if(chemicals.length > 0)
@@ -150,6 +142,14 @@ const RegisterScreen = props => {
         setBrand(value)
         setBrands([]) 
         await checkDuplicate(-1, value.id);
+    }
+
+    const scrollBotton = () => {
+        scrollRef.current.scrollTo({
+            y: (100),
+            animated: true,
+        })
+        
     }
 
     const checkDuplicate = async(foodId, brandId) => { 
@@ -323,7 +323,7 @@ const RegisterScreen = props => {
                                 placeholder='Escolha o alimento'
                                 onChangeText={text => selectFood(text)}
                                 onPress={item => clickFood(item)} 
-                                onFocus={() => scrollBotton()}
+                                scrollRef={scrollRef}
                             />
                             <TouchableOpacity onPress={() => openModal('Alimento')}>
                                 <Ionicons
@@ -342,7 +342,7 @@ const RegisterScreen = props => {
                                                 placeholder='Escolha o marca'
                                                 onChangeText={text => selectBrand(text)}
                                                 onPress={item => clickBrand(item)}
-                                                onFocus={() => scrollBotton()}
+                                                scrollRef={scrollRef}
                                             />
                                             <TouchableOpacity onPress={() => openModal('Marca')}>
                                                 <Ionicons
