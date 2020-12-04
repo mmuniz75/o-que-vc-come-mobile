@@ -107,6 +107,7 @@ const SearchScreen = props => {
     const selectFood= (value) => {
         setBarcode("")
         setFood(new Model(-1, value))
+        setBrand(new Model(-1, value))
         if(value!="")
             setFoods(foodsData.filter(food => food.name.toLowerCase().indexOf(value.toLowerCase())>-1))
         else
@@ -207,7 +208,7 @@ const SearchScreen = props => {
                             />
                         </View>
                     )}
-                    {food.name == "" && brand.name == "" ? (
+                    { (food.id < 1 || brand.id < 1) && brands.length==0 && foods.length==0 ? (
                                         <View style={styles.button}>
                                             <Button title="Não achei meu alimento" onPress={() => props.navigation.navigate('Register')} />
                                         </View>
