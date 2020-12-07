@@ -10,6 +10,7 @@ import Colors from '../constants/Colors';
 import Chemical from '../components/UI/Chemical';
 import Model from '../models/Model'
 import Autocomplete from '../components/UI/AutoComplete'
+import BarCode from '../components/UI/Barcode'
 
 import * as actions from '../store/actions'
 
@@ -20,6 +21,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const SearchScreen = props => {
+    const [isScanning, setIsScanning] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const foodsData = useSelector(state => state.foods);
@@ -163,6 +165,15 @@ const SearchScreen = props => {
         setIsLoading(false);
     }
 
+    const scanBarcode = () => {
+        setIsScanning(true)
+    }
+
+    const barcodeScanned = (value) => {
+        setIsScanning(false)
+        seekFromBarcode(value)
+    }
+
     const scrollRef = useRef();
   
     if (isLoading) {
@@ -173,70 +184,77 @@ const SearchScreen = props => {
         );
       }
 
-    return (
-      
-        <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
-            <View style={styles.screen}>
-                <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
-                <View style={styles.form}>
-                    <View style={styles.formControl}>
-                        <View style={styles.textContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={barcode}
-                                onChangeText={text => seekFromBarcode(text)}
-                                keyboardType='number-pad'
-                                placeholder='Codigo de barra'
-                            />
-                            <TouchableOpacity>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
-                                    size={32}
+    if(isScanning){
+        return <BarCode onScanned={value => barcodeScanned(value)} onNotGranted={() => setIsScanning(false)}/>
+
+    }else {  
+
+        return (
+        
+            <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
+                <View style={styles.screen}>
+                    <Text style={styles.text}>Veja os produtos quimicos que acompanham os alimentos que você consome.</Text>
+                    <View style={styles.form}>
+                        <View style={styles.formControl}>
+                            <View style={styles.textContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    value={barcode}
+                                    onChangeText={text => seekFromBarcode(text)}
+                                    keyboardType='number-pad'
+                                    placeholder='Codigo de barra'
                                 />
-                            </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
+                                        size={32}
+                                        onPress={() => scanBarcode()}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.formControl}>
-                        <Autocomplete
-                            data={foods}
-                            value={food.name}
-                            placeholder='Escolha o alimento'
-                            onChangeText={text => selectFood(text)}
-                            onPress={item => clickFood(item, true)}
-                            scrollRef={scrollRef}
-                        />
-                    </View>                    
-                    {food.id > 0 && (
                         <View style={styles.formControl}>
                             <Autocomplete
-                                data={brands}
-                                value={brand.name}
-                                placeholder='Escolha o marca'
-                                onChangeText={text => selectBrand(text)}
-                                onPress={item => clickBrand(item)}
+                                data={foods}
+                                value={food.name}
+                                placeholder='Escolha o alimento'
+                                onChangeText={text => selectFood(text)}
+                                onPress={item => clickFood(item, true)}
                                 scrollRef={scrollRef}
                             />
-                        </View>
-                    )}
-                    { (food.id < 1 || brand.id < 1) && brands.length==0 && foods.length==0 ? (
-                                        <View style={styles.button}>
-                                            <Button title="Não achei meu alimento" onPress={() => props.navigation.navigate('Register')} />
-                                        </View>
-                                        ):null}
-                    
+                        </View>                    
+                        {food.id > 0 && (
+                            <View style={styles.formControl}>
+                                <Autocomplete
+                                    data={brands}
+                                    value={brand.name}
+                                    placeholder='Escolha o marca'
+                                    onChangeText={text => selectBrand(text)}
+                                    onPress={item => clickBrand(item)}
+                                    scrollRef={scrollRef}
+                                />
+                            </View>
+                        )}
+                        { (food.id < 1 || brand.id < 1) && brands.length==0 && foods.length==0 ? (
+                                            <View style={styles.button}>
+                                                <Button title="Não achei meu alimento" onPress={() => props.navigation.navigate('Register')} />
+                                            </View>
+                                            ):null}
+                        
 
-                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] == 'Nenhum' && <Text style={styles.green}>Nenhum produto quimico encontrado nesse produto.</Text>}
-                {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum' && <Text style={styles.text}>Pressione no produto quimico para saber mais sobre ele.</Text>}
-                {
-                    food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum'
-                    ? chemicalsRoot.chemicals.map(chemical => <Chemical key={chemical} name={chemical} />) 
-                    : null
-                }
+                    {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] == 'Nenhum' && <Text style={styles.green}>Nenhum produto quimico encontrado nesse produto.</Text>}
+                    {food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum' && <Text style={styles.text}>Pressione no produto quimico para saber mais sobre ele.</Text>}
+                    {
+                        food.id > 0 && brand.id > 0 && chemicalsRoot.chemicals && chemicalsRoot.chemicals[0] != 'Nenhum'
+                        ? chemicalsRoot.chemicals.map(chemical => <Chemical key={chemical} name={chemical} />) 
+                        : null
+                    }
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
-    
-    )
+            </ScrollView>
+        
+        )
+    }    
 }
 
 
