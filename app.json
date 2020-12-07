@@ -1,11 +1,10 @@
 {
   "expo": {
-    "name": "o-que-vc-come-mobile",
-    "slug": "o-que-vc-come-mobile",
+    "name": "O que você come",
+    "slug": "o-que-vc-come",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,8 +19,11 @@
     },
     "assetBundlePatterns":["assets/fonts/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes of products."
+      }
     },
-    "description": ""
+    "description": "App para buscar produtos quimicos que acompanham os alimentos que consumimos"
   }
 }
