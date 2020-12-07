@@ -204,13 +204,11 @@ const SearchScreen = props => {
                                     keyboardType='number-pad'
                                     placeholder='Codigo de barra'
                                 />
-                                <TouchableOpacity>
-                                    <Ionicons
-                                        name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
-                                        size={32}
-                                        onPress={() => scanBarcode()}
-                                    />
-                                </TouchableOpacity>
+                                <Ionicons
+                                    name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
+                                    size={32}
+                                    onPress={() => scanBarcode()}
+                                />
                             </View>
                         </View>
                         <View style={styles.formControl}>

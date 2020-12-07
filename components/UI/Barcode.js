@@ -1,14 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Text, Alert, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as Permissions from 'expo-permissions';
 
 const BarCode = props => {
     const [hasPermission, setHasPermission] = useState(null);
 
     useEffect(() => {
         (async () => {
-          const { status } = await BarCodeScanner.requestPermissionsAsync();
+          //const { status } = await BarCodeScanner.requestPermissionsAsync();
+          const { status } = await Permissions.askAsync(Permissions.CAMERA);
           setHasPermission(status === 'granted');
+          
         })();
     }, []);
 
