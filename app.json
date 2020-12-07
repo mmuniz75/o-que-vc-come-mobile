@@ -19,10 +19,17 @@
     },
     "assetBundlePatterns":["assets/fonts/*"],
     "ios": {
+      "bundleIdentifier" : "edu.muniz.oquevccome.mobile",
+      "buildNumber" : "1.0.0",
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan barcodes of products."
       }
+    },
+    "android" : {
+      "package" : "edu.muniz.oquevccome.mobile",
+      "versionCode" : 1,
+      "permissions" : ["CAMERA"]
     },
     "description": "App para buscar produtos quimicos que acompanham os alimentos que consumimos"
   }
