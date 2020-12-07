@@ -4,7 +4,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Platfo
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
 import HeaderButton from '../components/UI/HeaderButton';
+import BarCode from '../components/UI/Barcode'
+
 import * as actions from '../store/actions'
 import Autocomplete from '../components/UI/AutoComplete'
 import Chemical from '../components/UI/ChemicalSwitch'
@@ -17,6 +20,7 @@ YellowBox.ignoreWarnings([
 
 
 const RegisterScreen = props => {
+    const [isScanning, setIsScanning] = useState(false);
     const startObject = new Model(-1, "")
     
     const [newItemName, setNewItemName] = useState('');
@@ -252,6 +256,16 @@ const RegisterScreen = props => {
         props.navigation.setParams({ saveFn: save });
       }, [save]);
 
+
+    const scanBarcode = () => {
+        setIsScanning(true)
+    }
+
+    const barcodeScanned = (value) => {
+        setIsScanning(false)
+        checkBarcode(value)
+    }
+
     if (isLoading) {
         return (
           <View style={styles.screen}>
@@ -260,131 +274,139 @@ const RegisterScreen = props => {
         );
       }
 
-    return (
-        <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
-            <Modal animationType='slide'
-                visible={modalName != ''}
-                transparent={true}>
-                    <KeyboardAvoidingView style={styles.modalContainer} behavior='height'>
-                        <View style={styles.modal}>
-                            <View style={styles.formControl}>
-                                <View style={styles.closeIcon}>
-                                    <TouchableOpacity onPress={() => setModalName('')}>
-                                        <Ionicons
-                                            name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
-                                            size={25}
+    if(isScanning){
+        return <BarCode onScanned={value => barcodeScanned(value)} onNotGranted={() => setIsScanning(false)}/>
+
+    }else {    
+
+        return (
+            <ScrollView ref={scrollRef} scrollToOverflowEnabled={true}>
+                <Modal animationType='slide'
+                    visible={modalName != ''}
+                    transparent={true}>
+                        <KeyboardAvoidingView style={styles.modalContainer} behavior='height'>
+                            <View style={styles.modal}>
+                                <View style={styles.formControl}>
+                                    <View style={styles.closeIcon}>
+                                        <TouchableOpacity onPress={() => setModalName('')}>
+                                            <Ionicons
+                                                name={Platform.OS === 'android' ? 'md-close' : 'ios-close'}
+                                                size={25}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.label} >Digite o nome do {modalName}</Text>
+                                    <View style={styles.textContainer}>
+                                        <TextInput
+                                            style={styles.input}
+                                            value={newItemName}
+                                            onChangeText={text => setNewItemName(text)}
                                         />
-                                    </TouchableOpacity>
-                                </View>
-                                <Text style={styles.label} >Digite o nome do {modalName}</Text>
-                                <View style={styles.textContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        value={newItemName}
-                                        onChangeText={text => setNewItemName(text)}
-                                    />
-                                    <TouchableOpacity onPress={() => createNewItem()}>
-                                        <Ionicons
-                                            name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-                                            size={32}
-                                            color='green'
-                                        />
-                                    </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => createNewItem()}>
+                                            <Ionicons
+                                                name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                                                size={32}
+                                                color='green'
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </KeyboardAvoidingView>
-                
-            </Modal>
-            <View style={styles.screen}>
-                <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.Caso não ache sua marca ou alimento aperte + para adiciona-los.</Text>
-                <View style={styles.form}>
-                    <View style={styles.formControl}>
-                        <View style={styles.textContainer}>
-                            <TextInput
-                                style={styles.input}
-                                value={barcode}
-                                onChangeText={text => checkBarcode(text)}
-                                placeholder='Código de barra'
-                                keyboardType='number-pad'
-                            />
-                            <TouchableOpacity>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
-                                    size={32}
+                        </KeyboardAvoidingView>
+                    
+                </Modal>
+                <View style={styles.screen}>
+                    <Text style={styles.text}>Cadastre os produtos quimicos da sua marca ou alimento.Caso não ache sua marca ou alimento aperte + para adiciona-los.</Text>
+                    <View style={styles.form}>
+                        <View style={styles.formControl}>
+                            <View style={styles.textContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    value={barcode}
+                                    onChangeText={text => checkBarcode(text)}
+                                    placeholder='Código de barra'
+                                    keyboardType='number-pad'
                                 />
-                            </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-barcode' : 'ios-barcode'}
+                                        size={32}
+                                        onPress={() => scanBarcode()}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.formControl}>
-                        <View style={styles.textContainer}>
-                            <Autocomplete
-                                data={foods}
-                                value={food.name}
-                                placeholder='Escolha o alimento'
-                                onChangeText={text => selectFood(text)}
-                                onPress={item => clickFood(item)} 
-                                scrollRef={scrollRef}
-                            />
-                            <TouchableOpacity onPress={() => openModal('Alimento')}>
-                                <Ionicons
-                                    name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-                                    size={32}
+                        <View style={styles.formControl}>
+                            <View style={styles.textContainer}>
+                                <Autocomplete
+                                    data={foods}
+                                    value={food.name}
+                                    placeholder='Escolha o alimento'
+                                    onChangeText={text => selectFood(text)}
+                                    onPress={item => clickFood(item)} 
+                                    scrollRef={scrollRef}
                                 />
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={() => openModal('Alimento')}>
+                                    <Ionicons
+                                        name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+                                        size={32}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
 
-                    {food.id > 0 && <View style={styles.formControl}>
-                                        <View style={styles.textContainer}>
-                                            <Autocomplete
-                                                data={brands}
-                                                value={brand.name}
-                                                placeholder='Escolha o marca'
-                                                onChangeText={text => selectBrand(text)}
-                                                onPress={item => clickBrand(item)}
-                                                scrollRef={scrollRef}
-                                            />
-                                            <TouchableOpacity onPress={() => openModal('Marca')}>
-                                                <Ionicons
-                                                    name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-                                                    size={32}
+                        {food.id > 0 && <View style={styles.formControl}>
+                                            <View style={styles.textContainer}>
+                                                <Autocomplete
+                                                    data={brands}
+                                                    value={brand.name}
+                                                    placeholder='Escolha o marca'
+                                                    onChangeText={text => selectBrand(text)}
+                                                    onPress={item => clickBrand(item)}
+                                                    scrollRef={scrollRef}
                                                 />
-                                            </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => openModal('Marca')}>
+                                                    <Ionicons
+                                                        name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+                                                        size={32}
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
+                        }
+
+                    </View>
+                    
+                    {food.id > 0 && brand.id > 0 &&  <View style={styles.list}>
+                                        <View style={styles.chemicalHeader} >
+                                            <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
+                                            {false &&  <View style={styles.chemicalIcon} >
+                                                            <TouchableOpacity>
+                                                                <Ionicons
+                                                                    name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
+                                                                    size={32}
+                                                                />
+                                                            </TouchableOpacity>
+                                                        </View>
+                                            }
+                                        </View>
+                                        {
+                                            chemicals ? chemicals.map(chemical => {
+
+                                                return <Chemical name={chemical.name} 
+                                                                key={chemical.id} 
+                                                                checked={chemicalsCheck.some(c => c.id==chemical.id)}
+                                                                onChange={ newValue => setCheck(chemical.id, newValue)}/>
+                                            }    
+                                            ):null
+                                        }
                                     </View>
-                    }
+                    }    
 
                 </View>
-                
-                {food.id > 0 && brand.id > 0 &&  <View style={styles.list}>
-                                    <View style={styles.chemicalHeader} >
-                                        <Text style={styles.textChemical}>Selecione os produtos quimicos desse alimento.</Text>
-                                        <View style={styles.chemicalIcon} >
-                                            <TouchableOpacity>
-                                                <Ionicons
-                                                    name={Platform.OS === 'android' ? 'md-camera' : 'ios-camera'}
-                                                    size={32}
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                    {
-                                        chemicals ? chemicals.map(chemical => {
-
-                                            return <Chemical name={chemical.name} 
-                                                            key={chemical.id} 
-                                                            checked={chemicalsCheck.some(c => c.id==chemical.id)}
-                                                            onChange={ newValue => setCheck(chemical.id, newValue)}/>
-                                        }    
-                                        ):null
-                                    }
-                                </View>
-                }    
-
-            </View>
-        </ScrollView>
-    )
+            </ScrollView>
+        )
+    }    
 }
 
 RegisterScreen.navigationOptions = navData => {
