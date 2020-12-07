@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Button, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const BarCode = props => {
@@ -13,29 +13,31 @@ const BarCode = props => {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        if (hasPermission === false) {
-            Alert.alert('Mensagem', "Você não autorizou o uso da camera do seu celular", [{ text: 'Fechar' }]);
-            props.onNotGranted()
-        }    
         props.onScanned(data)
     };
+   
+    if (hasPermission === null) {
+        return <Text></Text>;
+    }
 
     if (hasPermission === false) {
-        Alert.alert('Mensagem', "Você não autorizou o uso da camera do seu celular", [{ text: 'Fechar' }]);
-        return
-    }else {    
-        return  <View
-                        style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                    <BarCodeScanner
-                        onBarCodeScanned={handleBarCodeScanned}
-                        style={StyleSheet.absoluteFillObject}
-                    />
-                </View>
-    }        
+        Alert.alert('Mensagem', "Para ler o codigo de barras é necessário autorizar o uso da camera do seu celular", [{ text: 'Fechar' }]);
+        props.onNotGranted()
+    }    
+    
+    return  <View
+                    style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                <BarCodeScanner
+                    onBarCodeScanned={handleBarCodeScanned}
+                    style={StyleSheet.absoluteFillObject}
+                />
+                <Button title={'Cancelar'} onPress={() => props.onNotGranted()} />
+            </View>
+    
 }
 
 export default BarCode
