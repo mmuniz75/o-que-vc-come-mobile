@@ -13,8 +13,8 @@ import Autocomplete from '../components/UI/AutoComplete'
 import Chemical from '../components/UI/ChemicalSwitch'
 import Model from '../models/Model'
 
-import { YellowBox } from 'react-native'
-YellowBox.ignoreWarnings([
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
 

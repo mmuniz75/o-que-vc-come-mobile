@@ -15,10 +15,11 @@ import BarCode from '../components/UI/Barcode'
 import * as actions from '../store/actions'
 
 
-import { YellowBox } from 'react-native'
-YellowBox.ignoreWarnings([
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ])
+
 
 const SearchScreen = props => {
     const [isScanning, setIsScanning] = useState(false);
