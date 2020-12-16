@@ -91,6 +91,7 @@ const SearchScreen = props => {
             if(err.message != "Codigo de barra não encontrado")
                 Alert.alert('Mensagem', err.message, [{ text: 'Fechar' }]);
             else{
+                setBarcode("")
                 Alert.alert('Mensagem', err.message, [
                     { text: 'Fechar' },
                     {
