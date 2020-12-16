@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback,useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Platform, Modal, Alert,KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
+
 import Colors from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -261,10 +263,28 @@ const RegisterScreen = props => {
         setIsScanning(true)
     }
 
-    const barcodeScanned = (value) => {
+    const barcodeScanned = async (value) => {
+        await playSound()
         setIsScanning(false)
         checkBarcode(value)
     }
+
+    const [sound, setSound] = useState();
+  
+    async function playSound() {
+      const { sound } = await Audio.Sound.createAsync(
+         require('.././assets/beep.mp3')
+      );
+      setSound(sound);
+      await sound.playAsync(); 
+    }
+  
+    useEffect(() => {
+      return sound
+        ? () => {
+              sound.unloadAsync(); }
+        : undefined;
+    }, [sound]);
 
     if (isLoading) {
         return (

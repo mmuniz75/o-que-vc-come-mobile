@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef  } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Platform, ScrollView, ActivityIndicator,Alert, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Audio } from 'expo-av';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -171,12 +172,30 @@ const SearchScreen = props => {
         setIsScanning(true)
     }
 
-    const barcodeScanned = (value) => {
+    const barcodeScanned = async (value) => {
+        await playSound()
         setIsScanning(false)
         seekFromBarcode(value)
     }
 
-    const scrollRef = useRef();
+  const [sound, setSound] = useState();
+  
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+       require('.././assets/beep.mp3')
+    );
+    setSound(sound);
+    await sound.playAsync(); 
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+            sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
+
+  const scrollRef = useRef();
   
     if (isLoading) {
         return (
