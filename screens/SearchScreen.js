@@ -180,7 +180,7 @@ const SearchScreen = props => {
     if (isLoading) {
         return (
           <View style={styles.screen}>
-            <ActivityIndicator size="large" color={Colors.primary} />
+            <ActivityIndicator size="large" color={Colors.primaryColor} />
           </View>
         );
       }
@@ -262,6 +262,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
     },
     button: {
         marginTop : 1,
