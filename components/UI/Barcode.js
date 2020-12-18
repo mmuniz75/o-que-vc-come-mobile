@@ -16,7 +16,7 @@ const BarCode = props => {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        props.onScanned(data)
+        props.onScanned(data.substring(0,13))
     };
    
     if (hasPermission === null) {
