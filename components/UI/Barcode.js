@@ -5,6 +5,7 @@ import * as Permissions from 'expo-permissions';
 
 const BarCode = props => {
     const [hasPermission, setHasPermission] = useState(null);
+    const [scanned, setScanned] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -16,7 +17,10 @@ const BarCode = props => {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        props.onScanned(data.substring(0,13))
+        if(!scanned) {
+            setScanned(true)
+            props.onScanned(data.substring(0,13))
+        }    
     };
    
     if (hasPermission === null) {
